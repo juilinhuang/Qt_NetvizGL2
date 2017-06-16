@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/graph">
+        <file>Graphs/EdgeLinks/degreetest.txt</file>
+    </qresource>
+</RCC>

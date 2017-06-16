@@ -1,0 +1,16 @@
+#ifndef GLWINDOW_H
+#define GLWINDOW_H
+
+#include "../Graphs/Graph.h"
+
+class GLWindow{
+
+public:
+    virtual Graph *getGraph() = 0;
+    virtual char* getPath() = 0;
+    virtual void setGraph(const Graph *g);
+    virtual void setPath(const char *p);
+};
+
+
+#endif // GLWINDOW_H
