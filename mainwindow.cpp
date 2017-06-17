@@ -13,13 +13,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-//    connect(ui->pushButton, SIGNAL(clicked(bool), ui->widget, );
-
-//    QSet<int> set;
-//    set.insert(1);
-//    qDebug() << set.contains("aaa");
-//    set.insert(2);
-//    qDebug() << set.size();
 }
 
 MainWindow::~MainWindow()
@@ -29,6 +22,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
+    qDebug() << "close";
     ui->widget->terminateThread();
 }
 
@@ -36,15 +30,18 @@ void MainWindow::on_pushButton_clicked()
 {
     ui->widget->terminateThread();
 //    QString file = "D:/Qt_project/NetvizGL2/Graphs/EdgeLinks/degreetest.txt";
-    QString file = QFileDialog::getOpenFileName(this, "choose a file", "D:/Qt_project/NetvizGL2/Graphs", "All (*.*);; Text (*.txt);; Matrix (*.mtx)");
-//    QMessageBox::information(this, "Path", file);
-//    setFocus();
-    char *p = new char[file.toStdString().size()];
-    strcpy(p, file.toStdString().c_str());
-    qDebug() << p;
-    ui->widget->setPath(p);
-    ui->widget->test("1");
-    ui->radioButton->setChecked(true);
+    QString file = QFileDialog::getOpenFileName(this,
+                                                "choose a file",
+                                                "D:/Qt_project/NetvizGL2/Graphs",
+                                                "All (*.*);; Text (*.txt);; Matrix (*.mtx)");
+    if(!file.isEmpty()){
+        char *p = new char[file.toStdString().size()];
+        strcpy(p, file.toStdString().c_str());
+//        qDebug() << p;
+        ui->widget->setPath(p);
+        ui->widget->test("1");
+        ui->radioButton->setChecked(true);
+    }
 }
 
 void MainWindow::on_pushButton_2_clicked()
@@ -65,4 +62,19 @@ void MainWindow::on_radioButton_2_clicked()
 void MainWindow::on_radioButton_3_clicked()
 {
     ui->widget->test("3");
+}
+
+void MainWindow::on_pushButton_3_clicked()
+{
+    ui->widget->degreeC();
+}
+
+void MainWindow::on_pushButton_4_clicked()
+{
+    ui->widget->distanceC();
+}
+
+void MainWindow::on_pushButton_5_clicked()
+{
+    ui->widget->betweennessC();
 }

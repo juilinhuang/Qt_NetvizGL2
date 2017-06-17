@@ -14,6 +14,9 @@
 #include "inc/Algorithms/SimpleForceDirected.h"
 #include "inc/Algorithms/MultiForce.h"
 #include "inc/Command/LoadGraph.h"
+#include "inc/Centrality/DegreeCentrality.h"
+#include "inc/Centrality/DistanceCentrality.h"
+#include "inc/Centrality/Betweenness.h"
 #include "testthread.h"
 
 
@@ -23,14 +26,12 @@ GLWidget::GLWidget(QWidget *parent):QOpenGLWidget(parent)
     /*
      * update timer
      */
-    timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(update()));
-    timer->start(20);
+
 
     path = "D:/Qt_project/NetvizGL2/Graphs/EdgeLinks/graph.txt";
 //    graph = new MatrixMarketGraph("D:/Qt_project/NetvizGL2/Graphs/MatrixMarket/ash85.mtx");
 //    graph = new AdjacencyGraph("D:/Qt_project/NetvizGL2/Graphs/Adjacency/sirpenski5.txt");
-    graph = new EdgeGraph(path);
+    graph = new EdgeGraph("D:/Qt_project/NetvizGL2/Graphs/EdgeLinks/graph.txt");
     c = new LoadGraph(this);
     translateX = 0;
     translateY = 0;
@@ -39,14 +40,17 @@ GLWidget::GLWidget(QWidget *parent):QOpenGLWidget(parent)
     isMouseMiddleDown = false;
     isMouseRightDown = false;
 
-    graph->vertices[0]->setColour(1,0,0);
+//    graph->vertices[0]->setColour(1,0,0);
 
 //    algorithm = new SimpleForceDirected(graph);
 //    t = new TestThread(this);
 //    t->addAlgorithm(algorithm);
 //    t->start();
+    t = NULL;
     test("1");
-
+    timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+    timer->start(20);
 }
 
 GLWidget::~GLWidget()
@@ -279,4 +283,25 @@ void GLWidget::setPath(char *p)
 {
     path = p;
     c->execute();
+}
+
+void GLWidget::degreeC()
+{
+    DegreeCentrality cc;
+    cc.calcApply(graph);
+    setFocus();
+}
+
+void GLWidget::distanceC()
+{
+    DistanceCentrality cc;
+    cc.calcApply(graph);
+    setFocus();
+}
+
+void GLWidget::betweennessC()
+{
+    Betweenness cc;
+    cc.calcApply(graph);
+    setFocus();
 }

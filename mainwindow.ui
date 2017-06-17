@@ -23,9 +23,16 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
-         <widget class="QPushButton" name="pushButton_2">
+         <widget class="QPushButton" name="pushButton">
           <property name="text">
-           <string>PushButton</string>
+           <string>open</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="Line" name="line">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
           </property>
          </widget>
         </item>
@@ -58,6 +65,48 @@
          </layout>
         </item>
         <item>
+         <widget class="Line" name="line_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_3">
+          <property name="text">
+           <string>degree</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_4">
+          <property name="text">
+           <string>distance</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_5">
+          <property name="text">
+           <string>between</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="Line" name="line_3">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_2">
+          <property name="text">
+           <string>test</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <spacer name="verticalSpacer">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
@@ -69,13 +118,6 @@
            </size>
           </property>
          </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="pushButton">
-          <property name="text">
-           <string>PushButton</string>
-          </property>
-         </widget>
         </item>
        </layout>
       </item>

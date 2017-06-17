@@ -33,6 +33,10 @@ public:
     void setGraph(Graph *g) override;
     void setPath(char *p) override;
 
+    void degreeC();
+    void distanceC();
+    void betweennessC();
+
 private:
     QTimer *timer;
     TestThread *t;
@@ -43,13 +47,15 @@ private:
 
     double pitch, yaw, bank;
     double translateX, translateY, translateZ;
-    double mouseX, mouseY, mouseDiffX, mouseDiffY;;
+    double mouseX, mouseY, mouseDiffX, mouseDiffY;
     bool isMouseLeftDown, isMouseMiddleDown, isMouseRightDown;
 
     Graph *graph;
-    GLfloat vertex[9] = {+0.0, +0.0, +0.0,
-                         -0.5, -0.5, +0.0,
-                         +0.1, +0.1, +0.0};
+
+
+//    GLfloat vertex[9] = {+0.0, +0.0, +0.0,
+//                         -0.5, -0.5, +0.0,
+//                         +0.1, +0.1, +0.0};
 
 
 };
