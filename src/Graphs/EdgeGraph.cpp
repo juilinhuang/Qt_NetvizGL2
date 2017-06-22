@@ -156,7 +156,8 @@ void EdgeGraph::read(char *filePath) {
     }
 
     for (int k = 0; k < edgeList.size(); ++k) {
-        vertices[edgeList[k][0]]->attachPoint(vertices[edgeList[k][1]]);
+//        vertices[edgeList[k][0]]->attachPoint(vertices[edgeList[k][1]]);
+        edges.push_back(new Edge(vertices[edgeList[k][0]], vertices[edgeList[k][1]]));
         vertices[edgeList[k][0]]->degree++;
         vertices[edgeList[k][1]]->degree++;
         adjacencyMatrix[edgeList[k][0]][edgeList[k][1]] = 1;

@@ -15,7 +15,7 @@ public:
     GLdouble posX1, posY1, posZ1;
     GLdouble posX2, posY2, posZ2;
 
-    Edge(GLdouble X1, GLdouble Y1, GLdouble Z1, GLdouble X2, GLdouble Y2, GLdouble Z2);
+    Edge(Vertex *base,Vertex *connect);
 
     ~Edge();
 

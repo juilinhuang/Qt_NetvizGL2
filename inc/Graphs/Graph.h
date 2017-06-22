@@ -23,6 +23,7 @@ public:
     Algorithm *algorithm;
 
     vector<Vertex *> vertices;
+    vector<Edge *> edges;
     unsigned long numVertices;
     unsigned long numEdges;
     vector<vector<int>> adjacencyMatrix;

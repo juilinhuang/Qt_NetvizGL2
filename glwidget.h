@@ -37,6 +37,7 @@ public:
     double getMouseX() override;
     double getMouseY() override;
     void setSelectedNode(Vertex *v) override;
+    Vertex *getSelectedNode() override;
 
     void degreeC();
     void distanceC();
@@ -55,6 +56,7 @@ private:
     GLdouble translateX, translateY, translateZ;
     GLdouble mouseX, mouseY, mouseDiffX, mouseDiffY;
     bool isMouseLeftDown, isMouseMiddleDown, isMouseRightDown;
+    bool isKeyCtrlDown;
 
 
     Graph *graph;

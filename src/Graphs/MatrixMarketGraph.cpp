@@ -85,7 +85,8 @@ void MatrixMarketGraph::read(char *filePath) {
             //fprintf(stderr, "%d %d\n", I[k], J[k]);
         }
         else {
-            vertices[I[k]]->attachPoint(vertices[J[k]]);
+//            vertices[I[k]]->attachPoint(vertices[J[k]]);
+            edges.push_back(new Edge(vertices[I[k]], vertices[J[k]]));
             adjacencyMatrix[I[k]][J[k]] = 1;
             adjacencyMatrix[J[k]][I[k]] = 1;
         }

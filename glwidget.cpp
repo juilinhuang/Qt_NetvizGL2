@@ -33,6 +33,8 @@ GLWidget::GLWidget(QWidget *parent):QOpenGLWidget(parent)
     isMouseMiddleDown = false;
     isMouseRightDown = false;
 
+    isKeyCtrlDown = false;
+
     c = new LoadGraph(this);
     sv = new SelectVertex(this);
 
@@ -138,52 +140,12 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
 //        qDebug() << "middle";
     }
     if(event->button() & Qt::RightButton){
-//        if(!isMouseRightDown){
         glLoadIdentity();
         gluPerspective(45, (double)width()/(double)height(), 0.01, 10);
         glTranslatef(translateX, translateY, -translateZ);
         glViewport(0, 0, width(), height());
-            sv->execute();
-//        }
-//        qDebug() << mouseX << ", " << mouseY << "/////" << width()<<", "<<height();
-//        qDebug() << graph->vertices[0]->isPointerOver(mouseX,mouseY,width(),height());
-//        qDebug() << "right";
+        sv->execute();
 
-
-
-//        GLdouble proj[16];
-//        GLdouble model[16];
-//        GLint view[4];
-//        GLdouble center[3];
-//        GLdouble edge[3];
-
-//        glGetDoublev(GL_PROJECTION_MATRIX, proj);
-//        glGetDoublev(GL_MODELVIEW_MATRIX, model);
-//        glGetIntegerv(GL_VIEWPORT, view);
-
-//        gluProject(graph->vertices[0]->posX * Edge::scale * 0.1, // posX * 0.01
-//                   graph->vertices[0]->posY * Edge::scale * 0.1,
-//                   graph->vertices[0]->posZ * Edge::scale * 0.1,
-//                   model,
-//                   proj,
-//                   view,
-//                   center,
-//                   center + 1,
-//                   center + 2);
-
-//        gluProject(graph->vertices[0]->vertices[15],
-//                   graph->vertices[0]->vertices[16],
-//                   graph->vertices[0]->vertices[17],
-//                   model,
-//                   proj,
-//                   view,
-//                   edge,
-//                   edge + 1,
-//                   edge + 2);
-
-//        qDebug() << "center : " << center[0] <<", "<< center[1];
-//        qDebug() << "edge   : " << edge[0] <<", "<< edge[1];
-//        qDebug() << "view   : " << view[0] <<", "<< view[1] << ", " << view[2] <<", "<< view[3];
         isMouseRightDown = true;
     }
     update();
@@ -206,35 +168,34 @@ void GLWidget::mouseReleaseEvent(QMouseEvent *event)
 //    qDebug() << "(" << event->pos().x() << ", " << event->pos().y() << ")";
     mouseX = event->pos().x();
     mouseY = event->pos().y();
+    t->resume();
     update();
 }
 
 void GLWidget::mouseMoveEvent(QMouseEvent *event)
 {
-//    if(isMouseLeftDown){
-//        qDebug() << "(" << event->x() << ", " << event->y() << ")";
-//    }
     mouseDiffX = mouseX - event->pos().x();
     mouseDiffY = mouseY - event->pos().y();
+/*
 //    if (wind->mouseMIDDLE) {
 //        wind->yaw += (xpos - wind->mouseX) / 8;
 //        wind->pitch += (ypos - wind->mouseY) / 8;
 //        wind->mouseX = xpos;
 //        wind->mouseY = ypos;
 //    }
-    if (isMouseLeftDown) {
+*/
+    if (isMouseLeftDown && !isKeyCtrlDown) {
         translateX += (((double)event->pos().x() - mouseX) / (double)height()) * 0.82 * translateZ;
         translateY += ((mouseY - (double)event->pos().y()) / (double)height()) * 0.82 * translateZ;
-//        qDebug() << "(" << translateX << ", " << translateY << ")";
-        mouseX = event->pos().x();
-        mouseY = event->pos().y();
+    }
+    if (isMouseLeftDown && isKeyCtrlDown) {
+        t->pause();
+        selectedNode->posX -= mouseDiffX * 0.15 * translateZ;
+        selectedNode->posY += mouseDiffY * 0.15 * translateZ;
+
     }
     mouseX = event->pos().x();
     mouseY = event->pos().y();
-//    if (wind->mouseLEFT && wind->keyCTRL) {
-//        wind->dragNode->execute();
-//    }
-//    qDebug() << "(" << translateX << ", " << translateY << ")";
     update();
 }
 
@@ -281,6 +242,9 @@ void GLWidget:: keyPressEvent(QKeyEvent *event)
 //            graph->vertices[0]->posX += 100;
         }
     }
+    if (event->key() == Qt::Key_Control){
+        isKeyCtrlDown = true;
+    }
     update();
 }
 
@@ -288,6 +252,9 @@ void GLWidget::keyReleaseEvent(QKeyEvent *event)
 {
     if(event->key() == Qt::Key_A){
 //        qDebug() << "A";
+    }
+    if (event->key() == Qt::Key_Control){
+        isKeyCtrlDown = false;
     }
     update();
 }
@@ -367,7 +334,11 @@ double GLWidget::getMouseY()
 void GLWidget::setSelectedNode(Vertex *v)
 {
     selectedNode = v;
-    qDebug() << selectedNode->posX << ", " << selectedNode->posY;
+}
+
+Vertex *GLWidget::getSelectedNode()
+{
+    return selectedNode;
 }
 
 void GLWidget::degreeC()
