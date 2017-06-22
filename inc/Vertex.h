@@ -20,7 +20,7 @@ private:
     GLuint *indices;
     GLint indIndex;
 
-    GLdouble *vertices;
+//    GLdouble *vertices;
     GLdouble *colours;
 
     std::mutex mtx;
@@ -64,6 +64,8 @@ public:
     void drawText();
     void setText(const char *t);
     char *text;
+
+    GLdouble *vertices;
 };
 
 #endif //NETVIZGL_SPHERE_H

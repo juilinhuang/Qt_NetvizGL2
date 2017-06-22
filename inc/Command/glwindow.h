@@ -10,6 +10,11 @@ public:
     virtual char* getPath() = 0;
     virtual void setGraph(Graph *g) = 0;
     virtual void setPath(char *p) = 0;
+    virtual int getWidth() = 0;
+    virtual int getHeight() = 0;
+    virtual double getMouseX() = 0;
+    virtual double getMouseY() = 0;
+    virtual void setSelectedNode(Vertex *v) = 0;
 };
 
 

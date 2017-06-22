@@ -17,7 +17,7 @@ private:
     GLWindow *window;
 public:
     LoadGraph(GLWindow *window) : window(window) {
-        fprintf(stdout, "%s\n", window->getPath());
+//        fprintf(stdout, "%s\n", window->getPath());
     }
     ~LoadGraph(){
         delete window;

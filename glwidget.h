@@ -32,6 +32,11 @@ public:
     char *getPath() override;
     void setGraph(Graph *g) override;
     void setPath(char *p) override;
+    int getWidth() override;
+    int getHeight() override;
+    double getMouseX() override;
+    double getMouseY() override;
+    void setSelectedNode(Vertex *v) override;
 
     void degreeC();
     void distanceC();
@@ -44,13 +49,16 @@ private:
     char* path;
 
     Command *c;
+    Command *sv;
 
-    double pitch, yaw, bank;
-    double translateX, translateY, translateZ;
-    double mouseX, mouseY, mouseDiffX, mouseDiffY;
+    GLdouble pitch, yaw, bank;
+    GLdouble translateX, translateY, translateZ;
+    GLdouble mouseX, mouseY, mouseDiffX, mouseDiffY;
     bool isMouseLeftDown, isMouseMiddleDown, isMouseRightDown;
 
+
     Graph *graph;
+    Vertex *selectedNode;
 
 
 //    GLfloat vertex[9] = {+0.0, +0.0, +0.0,
