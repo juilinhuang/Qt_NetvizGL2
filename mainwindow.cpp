@@ -33,7 +33,7 @@ void MainWindow::on_pushButton_clicked()
     ui->widget->terminateThread();
     QString file = QFileDialog::getOpenFileName(this,
                                                 "choose a file",
-                                                "D:/Qt_project/NetvizGL2/Graphs",
+                                                "D:/Qt_project/NetvizGL2 - Copy/Graphs",
                                                 "All (*.*);; Text (*.txt);; Matrix (*.mtx)");
     if(!file.isEmpty()){
         char *p = new char[file.toStdString().size()];
