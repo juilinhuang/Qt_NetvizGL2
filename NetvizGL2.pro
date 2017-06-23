@@ -64,7 +64,8 @@ HEADERS  += mainwindow.h \
     inc/Command/Command.h \
     inc/Command/LoadGraph.h \
     inc/Command/SelectVertex.h \
-    inc/Command/glwindow.h
+    inc/Command/glwindow.h \
+    inc/Command/DragVertex.h
 
 FORMS    += mainwindow.ui
 
