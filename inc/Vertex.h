@@ -5,10 +5,12 @@
 #ifndef NETVIZGL_SPHERE_H
 #define NETVIZGL_SPHERE_H
 
+//#include "edge.h"
 #include <cmath>
-#include "edge.h"
 #include <vector>
 #include <mutex>
+#include <GL/glu.h>
+
 
 using namespace std;
 class Vertex {

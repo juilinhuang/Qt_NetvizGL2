@@ -28,6 +28,8 @@ public:
 
     void terminateThread();
 
+    void setSelectedVertexColour(int r, int g, int b);
+
     Graph *getGraph() override;
     char *getPath() override;
     void setGraph(Graph *g) override;

@@ -6,8 +6,7 @@
 #define NETVIZGL_LINE_H
 
 #include <GL/glu.h>
-
-class Vertex;
+#include "Vertex.h"
 
 class Edge {
 public:

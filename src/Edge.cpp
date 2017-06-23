@@ -2,8 +2,8 @@
 // Created by werl on 29/09/16.
 //
 
-#include "inc/edge.h"
-#include "inc/vertex.h"
+#include "inc/Edge.h"
+
 
 const double Edge::scale = Vertex::radius * 10;
 

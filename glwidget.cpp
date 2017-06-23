@@ -290,6 +290,15 @@ void GLWidget::terminateThread()
     }
 }
 
+void GLWidget::setSelectedVertexColour(int r, int g, int b)
+{
+    GLdouble red = (GLdouble)r / 255;
+    GLdouble green = (GLdouble)g / 255;
+    GLdouble blue = (GLdouble)b / 255;
+
+    selectedNode->setColour(red, green, blue);
+}
+
 Graph *GLWidget::getGraph()
 {
     return graph;

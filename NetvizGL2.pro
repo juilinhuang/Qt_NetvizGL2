@@ -61,18 +61,9 @@ HEADERS  += mainwindow.h \
     inc/SimpleSvg.h \
     inc/SvgPrinter.h \
     testthread.h \
-    inc/Command/ColourNode.h \
     inc/Command/Command.h \
-    inc/Command/DeleteEdge.h \
-    inc/Command/DeleteVertex.h \
-    inc/Command/DragVertex.h \
     inc/Command/LoadGraph.h \
-    inc/Command/NameByIndex.h \
-    inc/Command/RefreshGraph.h \
-    inc/Command/SaveGraph.h \
-    inc/Command/SelectEdge.h \
     inc/Command/SelectVertex.h \
-    inc/Command/TextNode.h \
     inc/Command/glwindow.h
 
 FORMS    += mainwindow.ui

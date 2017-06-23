@@ -63,7 +63,6 @@ Vertex::Vertex(GLdouble offsetx, GLdouble offsety, GLdouble offsetz) {
 }
 
 void Vertex::update() {
-
     mtx.lock();
 
     const GLfloat RINGS = (float) 1.0 / (rings - 1);
@@ -85,7 +84,6 @@ void Vertex::update() {
 
         }
     }
-    //    fprintf(stdout, "ver: ( %f, %f, %f)\n", vertices[0], vertices[1], vertices[2]);
     //    qDebug() <<"VER: ( " << vertices[0] << ", "<< vertices[1] <<", " << vertices[2] << " )";
     for (r = 0; r < rings - 1; r++){
         for (s = 0; s < sectors - 1; s++) {
@@ -129,7 +127,7 @@ void Vertex::draw() {
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-    glPolygonOffset(-2.5f, -2.5f);
+    glPolygonOffset(-3.5f, -3.5f);
     glColorPointer(3, GL_DOUBLE, 0, colours);
     glDrawElements(GL_QUADS, this->indIndex, GL_UNSIGNED_INT, this->indices);
 
@@ -212,9 +210,9 @@ bool Vertex::isPointerOver(double x, double y, int width, int height) {
     glGetDoublev(GL_MODELVIEW_MATRIX, model);
     glGetIntegerv(GL_VIEWPORT, view);
 
-    gluProject(posX * Edge::scale * 0.1, // posX * 0.01
-               posY * Edge::scale * 0.1,
-               posZ * Edge::scale * 0.1,
+    gluProject(posX * 0.01, // posX * 0.01
+               posY * 0.01,
+               posZ * 0.01,
                model,
                proj,
                view,
@@ -256,9 +254,9 @@ double Vertex::getDepth() {
     glGetDoublev(GL_MODELVIEW_MATRIX, model);
     glGetIntegerv(GL_VIEWPORT, view);
 
-    gluProject(posX * Edge::scale * .1,
-               posY * Edge::scale * .1,
-               posZ * Edge::scale * .1,
+    gluProject(posX * 0.01,
+               posY * 0.01,
+               posZ * 0.01,
                model,
                proj,
                view,
@@ -282,9 +280,9 @@ void *Vertex::getScreenPosition(GLdouble *pos) {
     glGetDoublev(GL_MODELVIEW_MATRIX, model);
     glGetIntegerv(GL_VIEWPORT, view);
 
-    gluProject(posX * Edge::scale * .1,
-               posY * Edge::scale * .1,
-               posZ * Edge::scale * .1,
+    gluProject(posX * 0.01,
+               posY * 0.01,
+               posZ * 0.01,
                model,
                proj,
                view,
