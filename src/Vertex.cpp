@@ -63,7 +63,6 @@ Vertex::Vertex(GLdouble offsetx, GLdouble offsety, GLdouble offsetz) {
 }
 
 void Vertex::update() {
-
     mtx.lock();
 
     const GLfloat RINGS = (float) 1.0 / (rings - 1);
@@ -85,8 +84,7 @@ void Vertex::update() {
 
         }
     }
-//    fprintf(stdout, "ver: ( %f, %f, %f)\n", vertices[0], vertices[1], vertices[2]);
-//    qDebug() <<"VER: ( " << vertices[0] << ", "<< vertices[1] <<", " << vertices[2] << " )";
+    //    qDebug() <<"VER: ( " << vertices[0] << ", "<< vertices[1] <<", " << vertices[2] << " )";
     for (r = 0; r < rings - 1; r++){
         for (s = 0; s < sectors - 1; s++) {
 
@@ -98,17 +96,15 @@ void Vertex::update() {
         }
     }
 
-    for (int i = 0; i < edges.size(); ++i) {
-        edges[i]->posX1 = posX * Edge::scale; //scale = 0.1
-        edges[i]->posY1 = posY * Edge::scale;
-        edges[i]->posZ1 = posZ * Edge::scale;
-
-        edges[i]->posX2 = attachedPoints[i]->posX * Edge::scale;
-        edges[i]->posY2 = attachedPoints[i]->posY * Edge::scale;
-        edges[i]->posZ2 = attachedPoints[i]->posZ * Edge::scale;
-
-        edges[i]->update();
-    }
+//    for (int i = 0; i < edges.size(); ++i) {
+//        edges[i]->posX1 = posX * Edge::scale; //scale = 0.1
+//        edges[i]->posY1 = posY * Edge::scale;
+//        edges[i]->posZ1 = posZ * Edge::scale;
+//        edges[i]->posX2 = attachedPoints[i]->posX * Edge::scale;
+//        edges[i]->posY2 = attachedPoints[i]->posY * Edge::scale;
+//        edges[i]->posZ2 = attachedPoints[i]->posZ * Edge::scale;
+//        edges[i]->update();
+//    }
     mtx.unlock();
 
 }
@@ -131,7 +127,7 @@ void Vertex::draw() {
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-    glPolygonOffset(-2.5f, -2.5f);
+    glPolygonOffset(-3.5f, -3.5f);
     glColorPointer(3, GL_DOUBLE, 0, colours);
     glDrawElements(GL_QUADS, this->indIndex, GL_UNSIGNED_INT, this->indices);
 
@@ -140,11 +136,11 @@ void Vertex::draw() {
 
     glPolygonOffset(0, 0);
 
-    if (edges.size() > 0) {
-        for (int i = 0; i < edges.size(); ++i) {
-            edges[i]->draw();
-        }
-    }
+//    if (edges.size() > 0) {
+//        for (int i = 0; i < edges.size(); ++i) {
+//            edges[i]->draw();
+//        }
+//    }
 
     mtx.unlock();
 }
@@ -159,11 +155,11 @@ void Vertex::drawText() {
         //    font->Render(text, -1, FTPoint(pos[0], pos[1], pos[2]));
     }
 
-    if (edges.size() > 0) {
-        for (int i = 0; i < edges.size(); ++i) {
-            edges[i]->drawText();
-        }
-    }
+//    if (edges.size() > 0) {
+//        for (int i = 0; i < edges.size(); ++i) {
+//            edges[i]->drawText();
+//        }
+//    }
 }
 
 Vertex::~Vertex() {
@@ -194,14 +190,14 @@ GLdouble *Vertex::getColour(GLdouble *colours) {
     colours[2] = colourB;
 }
 
-void Vertex::attachPoint(Vertex *p) {
-    attachedPoints.push_back(p);
-    Edge *l = new Edge(posX * 0.1, posY * 0.1, posZ * 0.1,
-                       p->posX * 0.1, p->posY * 0.1, p->posZ * 0.1);
-    l->base = this;
-    l->connect = p;
-    edges.push_back(l);
-}
+//void Vertex::attachPoint(Vertex *p) {
+//    attachedPoints.push_back(p);
+//    Edge *l = new Edge(posX * 0.1, posY * 0.1, posZ * 0.1,
+//                       p->posX * 0.1, p->posY * 0.1, p->posZ * 0.1);
+//    l->base = this;
+//    l->connect = p;
+//    edges.push_back(l);
+//}
 
 bool Vertex::isPointerOver(double x, double y, int width, int height) {
     GLdouble proj[16];
@@ -214,9 +210,9 @@ bool Vertex::isPointerOver(double x, double y, int width, int height) {
     glGetDoublev(GL_MODELVIEW_MATRIX, model);
     glGetIntegerv(GL_VIEWPORT, view);
 
-    gluProject(posX * Edge::scale * 0.1, // posX * 0.01
-               posY * Edge::scale * 0.1,
-               posZ * Edge::scale * 0.1,
+    gluProject(posX * 0.01, // posX * 0.01
+               posY * 0.01,
+               posZ * 0.01,
                model,
                proj,
                view,
@@ -234,6 +230,9 @@ bool Vertex::isPointerOver(double x, double y, int width, int height) {
             edge + 1,
             edge + 2);
 
+//    qDebug() << "view : " << view[0] <<", "<< view[1] << view[2] <<", "<< view[3];
+//    qDebug() << "center : " << center[0] <<", "<< center[1];
+//    qDebug() << "edge   : " << edge[0] <<", "<< edge[1];
     double maxMouseDistance =
             sqrt(((center[0] - edge[0]) * (center[0] - edge[0])) +
             ((center[1] - edge[1]) * (center[1] - edge[1])));
@@ -241,7 +240,7 @@ bool Vertex::isPointerOver(double x, double y, int width, int height) {
     double pointerDistance = sqrt(((center[0] - x) * (center[0] - x))
             + ((center[1] - (height - y))
             * (center[1] - (height - y))));
-
+//        qDebug() << "x, y : " << x <<", "<< y;
     return pointerDistance < maxMouseDistance;
 }
 
@@ -255,9 +254,9 @@ double Vertex::getDepth() {
     glGetDoublev(GL_MODELVIEW_MATRIX, model);
     glGetIntegerv(GL_VIEWPORT, view);
 
-    gluProject(posX * Edge::scale * .1,
-               posY * Edge::scale * .1,
-               posZ * Edge::scale * .1,
+    gluProject(posX * 0.01,
+               posY * 0.01,
+               posZ * 0.01,
                model,
                proj,
                view,
@@ -281,9 +280,9 @@ void *Vertex::getScreenPosition(GLdouble *pos) {
     glGetDoublev(GL_MODELVIEW_MATRIX, model);
     glGetIntegerv(GL_VIEWPORT, view);
 
-    gluProject(posX * Edge::scale * .1,
-               posY * Edge::scale * .1,
-               posZ * Edge::scale * .1,
+    gluProject(posX * 0.01,
+               posY * 0.01,
+               posZ * 0.01,
                model,
                proj,
                view,

@@ -2,32 +2,20 @@
 // Created by werl on 29/09/16.
 //
 
-#include "inc/edge.h"
-#include "inc/vertex.h"
+#include "inc/Edge.h"
+
 
 const double Edge::scale = Vertex::radius * 10;
 
-Edge::Edge(GLdouble X1, GLdouble Y1, GLdouble Z1, GLdouble X2, GLdouble Y2, GLdouble Z2) {
+Edge::Edge(Vertex *base, Vertex *connect) : base(base), connect(connect){
+    vertices = new GLdouble[6];
 
-    posX1 = X1;
-    posY1 = Y1;
-    posZ1 = Z1;
-    posX2 = X2;
-    posY2 = Y2;
-    posZ2 = Z2;
+    update();
 
     colours = new GLfloat[6];
     for (int i = 0; i < 6; ++i) {
         colours[i] = 0;
     }
-    vertices = new GLdouble[6];
-    vertices[0] = X1 * scale;  //scale = 0.1
-    vertices[1] = Y1 * scale;
-    vertices[2] = Z1 * scale;
-    vertices[3] = X2 * scale;
-    vertices[4] = Y2 * scale;
-    vertices[5] = Z2 * scale;
-
     text = new char[64];
     strcpy(text, "");
     //  font = new FTGLPixmapFont("../Fonts/arial.ttf");
@@ -37,12 +25,19 @@ Edge::Edge(GLdouble X1, GLdouble Y1, GLdouble Z1, GLdouble X2, GLdouble Y2, GLdo
 }
 
 void Edge::update() {
-    vertices[0] = posX1 * scale; // scale = 0.1
-    vertices[1] = posY1 * scale;
-    vertices[2] = posZ1 * scale;
-    vertices[3] = posX2 * scale;
-    vertices[4] = posY2 * scale;
-    vertices[5] = posZ2 * scale;
+    posX1 = base->posX;
+    posY1 = base->posY;
+    posZ1 = base->posZ;
+    posX2 = connect->posX;
+    posY2 = connect->posY;
+    posZ2 = connect->posZ;
+
+    vertices[0] = posX1 * scale * 0.1;  //scale = 0.1
+    vertices[1] = posY1 * scale * 0.1;
+    vertices[2] = posZ1 * scale * 0.1;
+    vertices[3] = posX2 * scale * 0.1;
+    vertices[4] = posY2 * scale * 0.1;
+    vertices[5] = posZ2 * scale * 0.1;
 }
 
 Edge::~Edge() {

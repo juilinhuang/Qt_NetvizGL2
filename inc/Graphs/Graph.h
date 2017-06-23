@@ -8,11 +8,10 @@
 #include <vector>
 #include <string>
 #include "../vertex.h"
+#include "../Edge.h"
 
 #ifndef NETVIZGL_GRAPH_H
 #define NETVIZGL_GRAPH_H
-
-class Algorithm;
 
 using namespace std;
 
@@ -20,9 +19,9 @@ class Graph {
 public:
     Graph(char *filePath);
     virtual ~Graph();
-    Algorithm *algorithm;
 
     vector<Vertex *> vertices;
+    vector<Edge *> edges;
     unsigned long numVertices;
     unsigned long numEdges;
     vector<vector<int>> adjacencyMatrix;

@@ -73,7 +73,8 @@ void AdjacencyGraph::read(char *filePath) {
         for (int j = i; j < numVertices; ++j) {
             if(j == i) continue;
             if (adjacencyMatrix[i][j] == 1) {
-                vertices[i]->attachPoint(vertices[j]);
+                edges.push_back(new Edge(vertices[i], vertices[j]));
+//                vertices[i]->attachPoint(vertices[j]);
                 vertices[i]->degree++;
                 vertices[j]->degree++;
             }

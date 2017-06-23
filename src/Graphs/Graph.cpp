@@ -36,11 +36,17 @@ void Graph::draw() {
     for (int i = 0; i < numVertices; ++i) {
         vertices[i]->drawText();
     }
+    for (int i = 0; i < numEdges; ++i) {
+        edges[i]->draw();
+    }
 }
 
 void Graph::update() {
     for (int i = 0; i < numVertices; ++i) {
         vertices[i]->update();
+    }
+    for (int i = 0; i < numEdges; ++i) {
+        edges[i]->update();
     }
 }
 

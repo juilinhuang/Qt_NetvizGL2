@@ -5,10 +5,12 @@
 #ifndef NETVIZGL_SPHERE_H
 #define NETVIZGL_SPHERE_H
 
+//#include "edge.h"
 #include <cmath>
-#include "edge.h"
 #include <vector>
 #include <mutex>
+#include <GL/glu.h>
+
 
 using namespace std;
 class Vertex {
@@ -20,7 +22,7 @@ private:
     GLuint *indices;
     GLint indIndex;
 
-//    GLdouble *vertices;
+    GLdouble *vertices;
     GLdouble *colours;
 
     std::mutex mtx;
@@ -35,9 +37,9 @@ public:
     Vertex(GLdouble offsetx, GLdouble offsety, GLdouble offsetz);
     virtual ~Vertex();
 
-    vector<Vertex *> attachedPoints;
-    vector<Edge *> edges;
-    void attachPoint(Vertex *p);
+//    vector<Vertex *> attachedPoints;
+//    vector<Edge *> edges;
+//    void attachPoint(Vertex *p);
 
     int degree = 0;
     int level;
@@ -65,7 +67,7 @@ public:
     void setText(const char *t);
     char *text;
 
-    GLdouble *vertices;
+//    GLdouble *vertices;
 };
 
 #endif //NETVIZGL_SPHERE_H

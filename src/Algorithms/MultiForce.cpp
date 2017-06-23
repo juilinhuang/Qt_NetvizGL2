@@ -32,7 +32,7 @@ void MultiForce::apply() {
         }
 
         energy = 999999999;
-        while (energy > (10 + (seenVertices.size() * .1))) {
+        while (energy > (10 + (seenVertices.size() * 0.1))) {
             energy = 0;
             Vertex *v;
             Vertex *u;

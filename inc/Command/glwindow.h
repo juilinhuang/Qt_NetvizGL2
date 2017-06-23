@@ -15,6 +15,7 @@ public:
     virtual double getMouseX() = 0;
     virtual double getMouseY() = 0;
     virtual void setSelectedNode(Vertex *v) = 0;
+    virtual Vertex *getSelectedNode() = 0;
 };
 
 
