@@ -20,6 +20,7 @@ public:
 
 private:
     virtual void read(char *filePath);
+    virtual int *split(string str);
 //    bool validate(char *filePath);
 };
 

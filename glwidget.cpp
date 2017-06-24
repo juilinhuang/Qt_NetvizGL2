@@ -27,7 +27,7 @@ GLWidget::GLWidget(QWidget *parent):QOpenGLWidget(parent)
 
     translateX = 0;
     translateY = 0;
-    translateZ = 1;
+    translateZ = 1.8;
 
     isMouseLeftDown = false;
     isMouseMiddleDown = false;

@@ -17,7 +17,6 @@ void SimpleForceDirected::apply() {
     Vertex *u;
 
     for (int i = 0; i < graph->numVertices; ++i) {
-
         v = graph->vertices[i];
         v->forceX = 0;
         v->forceY = 0;
@@ -66,8 +65,9 @@ void SimpleForceDirected::initialPlacement() {
     for (int i = 0; i < graph->numVertices; ++i) {
         for (int j = 0; j < graph->numVertices; ++j) {
             if (graph->vertices[i]->posX == graph->vertices[j]->posX && i != j
-                    && graph->vertices[i]->posY == graph->vertices[j]->posY)
-                fprintf(stderr, "Warning: duplicate positions generated @ %d\n", i);
+                    && graph->vertices[i]->posY == graph->vertices[j]->posY){
+//                fprintf(stderr, "Warning: duplicate positions generated @ %d\n", i);
+            }
         }
     }
 }

@@ -6,7 +6,12 @@
 #include <string.h>
 #include <cstdio>
 #include <vector>
+#include <set>
 #include <string>
+#include <fstream>
+#include <sstream>
+#include <iterator>
+#include <iostream>
 #include "../vertex.h"
 #include "../Edge.h"
 
@@ -27,13 +32,16 @@ public:
     vector<vector<int>> adjacencyMatrix;
     vector<int *> edgeList;
 
+    set<string> set;
+
     void draw();
     void update();
 
-    virtual int *split(string x);
+
     static unsigned int hash3(unsigned int h1, unsigned int h2, unsigned int h3);
 private:
     virtual void read(char *filePath) = 0;
+    virtual int *split(string str) = 0;
 };
 
 #endif //NETVIZGL_GRAPHREADER_H

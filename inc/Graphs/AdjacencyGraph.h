@@ -18,6 +18,7 @@ public:
 
 private:
     virtual void read(char *filePath);
+    virtual int *split(string str);
 };
 
 #endif //NETVIZGL_ADJACENCYGRAPH_H

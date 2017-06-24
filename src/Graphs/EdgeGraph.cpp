@@ -5,11 +5,13 @@
 #include <cstdlib>
 #include <fstream>
 #include "../../inc/Graphs/EdgeGraph.h"
+#include <QDebug>
 
 EdgeGraph::EdgeGraph(char *filePath) : Graph(filePath) {
     read(filePath);
 }
 
+/*
 //EdgeGraph::EdgeGraph(vector<int *> newEdgeList) : Graph((char *) "./tempGraph"){
 //    edgeList = newEdgeList;
 
@@ -52,7 +54,9 @@ EdgeGraph::EdgeGraph(char *filePath) : Graph(filePath) {
 //    //    fprintf(stderr, "%d,%d\n", edgeList[i][0], edgeList[i][1]);
 //    //  }
 //}
+*/
 
+/*
 //EdgeGraph::EdgeGraph(char *filePath, vector<int *> newEdgeList)
 //    : Graph(filePath) {
 //    edgeList = newEdgeList;
@@ -96,7 +100,9 @@ EdgeGraph::EdgeGraph(char *filePath) : Graph(filePath) {
 //    //    fprintf(stderr, "%d,%d\n", edgeList[i][0], edgeList[i][1]);
 //    //  }
 //}
+*/
 
+/*
 //void EdgeGraph::draw() {
 //    for (int i = 0; i < numVertices; ++i) {
 //        vertices[i]->draw();
@@ -111,16 +117,17 @@ EdgeGraph::EdgeGraph(char *filePath) : Graph(filePath) {
 //        vertices[i]->update();
 //    }
 //}
+*/
 
 void EdgeGraph::read(char *filePath) {
     string inString;
     ifstream inFile;
-
     inFile.open(filePath);
     if (inFile.is_open()) {
-        fprintf(stdout, "\nOpened: %s \n", filePath);
-    } else {
-        fprintf(stderr, "\nFailed to open %s \n", filePath);
+        //        fprintf(stdout, "\nOpened: %s \n", filePath);
+    }
+    else {
+        //        fprintf(stderr, "\nFailed to open %s \n", filePath);
         exit(0);
     }
 
@@ -131,6 +138,9 @@ void EdgeGraph::read(char *filePath) {
     }
     inFile.close();
 
+//    numVertices = set.size();
+//    qDebug() << "set.size() = " << set.size();
+
     for (int i = 0; i < edgeList.size(); ++i) {
         if (edgeList[i][0] > numVertices) {
             numVertices = (unsigned long) edgeList[i][0];
@@ -139,8 +149,8 @@ void EdgeGraph::read(char *filePath) {
             numVertices = (unsigned long) edgeList[i][1];
         }
     }
-
     numVertices++;
+
 
     for (int i = 0; i < numVertices; ++i) {
         vector<int> row;
@@ -156,7 +166,7 @@ void EdgeGraph::read(char *filePath) {
     }
 
     for (int k = 0; k < edgeList.size(); ++k) {
-//        vertices[edgeList[k][0]]->attachPoint(vertices[edgeList[k][1]]);
+        //        vertices[edgeList[k][0]]->attachPoint(vertices[edgeList[k][1]]);
         edges.push_back(new Edge(vertices[edgeList[k][0]], vertices[edgeList[k][1]]));
         vertices[edgeList[k][0]]->degree++;
         vertices[edgeList[k][1]]->degree++;
@@ -164,30 +174,56 @@ void EdgeGraph::read(char *filePath) {
         adjacencyMatrix[edgeList[k][1]][edgeList[k][0]] = 1;
     }
 
-    int *temp = new int[2];
-    edgeList.clear();
-    for (int i = 0; i < numVertices; ++i) {
-        for (int j = i; j < numVertices; ++j) {
-            if (adjacencyMatrix[i][j] == 1) {
-                temp[0] = i;
-                temp[1] = j;
-                edgeList.push_back(temp);
-                temp = new int[2];
-            }
-        }
-    }
+    /*
+//    int *temp = new int[2];
+//    edgeList.clear();
+//    for (int i = 0; i < numVertices; ++i) {
+//        for (int j = i; j < numVertices; ++j) {
+//            if (adjacencyMatrix[i][j] == 1) {
+//                temp[0] = i;
+//                temp[1] = j;
+//                edgeList.push_back(temp);
+//                temp = new int[2];
+//            }
+//        }
+//    }
+*/
+
     numEdges = edgeList.size();
+
+    /*
     //  for (int i = 0; i < edgeList.size(); ++i) {
     //    fprintf(stderr, "%d,%d\n", edgeList[i][0], edgeList[i][1]);
     //  }
+    */
 }
 
+int *EdgeGraph::split(string str) {
+    std::istringstream buf(str);
+    std::istream_iterator<std::string> beg(buf), end;
+
+    std::vector<std::string> tokens(beg, end);
+
+    vector<string>::iterator it;
+    for(it=tokens.begin();it!=tokens.end();it++)
+        set.insert(*it);
+
+    qDebug() << "tokens.size() = " << tokens.size();
+
+    int *ret = new int[tokens.size()];
+    for (int i = 0; i < tokens.size(); ++i)
+        ret[i] = atoi(tokens[i].c_str());
+
+    return ret;
+}
+
+/*
 ////TODO this
 //bool EdgeGraph::validate(char *filePath) {
-
 //}
+*/
 
 EdgeGraph::~EdgeGraph() {
-    fprintf(stderr, "Deleting EdgeGraph\n");
+    //    fprintf(stderr, "Deleting EdgeGraph\n");
 }
 

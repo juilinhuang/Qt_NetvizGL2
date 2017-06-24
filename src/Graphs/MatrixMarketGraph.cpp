@@ -20,12 +20,12 @@ void MatrixMarketGraph::read(char *filePath) {
     int i, *I, *J;
 
     if ((f = fopen(filePath, "r")) == NULL) {
-        fprintf(stderr, "File not Opened");
+//        fprintf(stderr, "File not Opened");
         return;
     }
 
     if (mm_read_banner(f, &matcode) != 0) {
-        printf("\nCould not process Matrix Market banner.\n");
+//        printf("\nCould not process Matrix Market banner.\n");
         exit(1);
     }
 
@@ -33,9 +33,9 @@ void MatrixMarketGraph::read(char *filePath) {
     /*  only supports a subset of the Matrix Market data types.      */
     //  if (!mm_is_coordinate(matcode) || mm_is_integer(matcode)) {
     if (!mm_is_coordinate(matcode) || !mm_is_pattern(matcode) || !mm_is_symmetric(matcode)) {
-        printf("Sorry, this application only supports graphs that are:");
-        printf("Matrix Market type: [%s][%s][%s]\n", MM_COORDINATE_STR, MM_PATTERN_STR, MM_SYMM_STR);
-        printf("and not: [%s]\n", MM_INT_STR);
+//        printf("Sorry, this application only supports graphs that are:");
+//        printf("Matrix Market type: [%s][%s][%s]\n", MM_COORDINATE_STR, MM_PATTERN_STR, MM_SYMM_STR);
+//        printf("and not: [%s]\n", MM_INT_STR);
         exit(1);
     }
 
@@ -57,7 +57,7 @@ void MatrixMarketGraph::read(char *filePath) {
 
     fclose(f);
 
-    fprintf(stdout, "\n%s\n", filePath);
+//    fprintf(stdout, "\n%s\n", filePath);
     mm_write_banner(stdout, matcode);
     mm_write_mtx_crd_size(stdout, rows, cols, edgs);
     //  for (i = 0; i < edgs; i++)
@@ -121,6 +121,12 @@ void MatrixMarketGraph::read(char *filePath) {
     //  }
 }
 
+int *MatrixMarketGraph::split(string str)
+{
+    return NULL;
+}
+
+/*
 //void MatrixMarketGraph::draw() {
 //    for (int i = 0; i < numVertices; ++i) {
 //        vertices[i]->draw();
@@ -135,7 +141,8 @@ void MatrixMarketGraph::read(char *filePath) {
 //        vertices[i]->update();
 //    }
 //}
+*/
 
 MatrixMarketGraph::~MatrixMarketGraph() {
-    fprintf(stderr, "Deleting MatrixGraph\n");
+//    fprintf(stderr, "Deleting MatrixGraph\n");
 }

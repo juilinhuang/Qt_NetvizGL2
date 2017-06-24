@@ -59,8 +59,10 @@ void MultiForce::apply() {
             }
 
             for (int i = 0; i < edgeIndex; ++i) {
-                v = graph->vertices[graph->edgeList[i][0]];
-                u = graph->vertices[graph->edgeList[i][1]];
+//                v = graph->vertices[graph->edgeList[i][0]];
+//                u = graph->vertices[graph->edgeList[i][1]];
+                v = graph->edges[i]->base;
+                u = graph->edges[i]->connect;
 
                 double xDist = (v->posX - u->posX);
                 double yDist = (v->posY - u->posY);
@@ -124,8 +126,10 @@ void MultiForce::apply() {
         }
 
         for (int i = 0; i < graph->numEdges; ++i) {
-            v = graph->vertices[graph->edgeList[i][0]];
-            u = graph->vertices[graph->edgeList[i][1]];
+//            v = graph->vertices[graph->edgeList[i][0]];
+//            u = graph->vertices[graph->edgeList[i][1]];
+            v = graph->edges[i]->base;
+            u = graph->edges[i]->connect;
 
             double xDist = (v->posX - u->posX);
             double yDist = (v->posY - u->posY);

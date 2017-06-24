@@ -18,6 +18,7 @@ public:
 
 private:
     void read(char *filePath) override;
+    int *split(string str) override;
 };
 
 #endif //NETVIZGL_MATRIXMARKETGRAPH_H
