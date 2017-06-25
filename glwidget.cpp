@@ -48,7 +48,8 @@ GLWidget::GLWidget(QWidget *parent):QOpenGLWidget(parent)
 
     t = NULL;
     graph = NULL;
-    test("1");
+    selectedNode = NULL;
+    changeAlgorithm("1");
 
     // update timer
     timer = new QTimer(this);
@@ -205,8 +206,8 @@ void GLWidget::wheelEvent(QWheelEvent *event)
     if (translateZ < 0.16) {
         translateZ = 0.16;
     }
-    if(translateZ > 3){
-        translateZ = 3;
+    if(translateZ > 10){
+        translateZ = 10;
     }
     update();
 }
@@ -223,23 +224,21 @@ void GLWidget:: keyPressEvent(QKeyEvent *event)
         }
     }
     if(event->key() == Qt::Key_Escape){
-        terminateThread();
-        if(graph!=NULL){
-            delete graph;
-            graph = NULL;
-            qDebug() << graph;
-        }
+//        terminateThread();
+//        if(graph!=NULL){
+//            delete graph;
+//            graph = NULL;
+//            qDebug() << graph;
+//        }
+        translateX = 0;
+        translateY = 0;
     }
-    if (graph != NULL){
+    if (selectedNode != NULL){
         if(event->key() == Qt::Key_Left){
-//            qDebug() << "<<";
             selectedNode->posX -= 100;
-//            graph->vertices[0]->posX -= 100;
         }
         if(event->key() == Qt::Key_Right){
-//            qDebug() << ">>";
             selectedNode->posX += 100;
-//            graph->vertices[0]->posX += 100;
         }
     }
     if (event->key() == Qt::Key_Control){
@@ -259,18 +258,17 @@ void GLWidget::keyReleaseEvent(QKeyEvent *event)
     update();
 }
 
-void GLWidget::test(QString filePath)
+void GLWidget::changeAlgorithm(QString a)
 {
-    qDebug() << "123456";
     terminateThread();
 
     if (graph != NULL){
         t = new TestThread(this);
-        if(filePath == '1')
+        if(a == '1')
             t->addAlgorithm(new SimpleForceDirected(graph));
-        if(filePath == '2')
+        if(a == '2')
             t->addAlgorithm(new FruchtermanReingold(graph));
-        if(filePath == '3')
+        if(a == '3')
             t->addAlgorithm(new MultiForce(graph));
         t->start();
         qDebug() << t;
@@ -317,7 +315,6 @@ void GLWidget::setGraph(Graph *g)
 void GLWidget::setPath(char *p)
 {
     path = p;
-    c->execute();
 }
 
 int GLWidget::getWidth()
@@ -348,6 +345,14 @@ void GLWidget::setSelectedNode(Vertex *v)
 Vertex *GLWidget::getSelectedNode()
 {
     return selectedNode;
+}
+
+void GLWidget::loadGraph(char *p)
+{
+    terminateThread();
+    path = p;
+    c->execute();
+    changeAlgorithm("1");
 }
 
 void GLWidget::degreeC()

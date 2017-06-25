@@ -12,7 +12,7 @@
 #include <sstream>
 #include <iterator>
 #include <iostream>
-#include "../vertex.h"
+#include "../Vertex.h"
 #include "../Edge.h"
 
 #ifndef NETVIZGL_GRAPH_H

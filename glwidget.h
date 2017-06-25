@@ -24,7 +24,7 @@ public:
     void keyPressEvent(QKeyEvent *event) override;
     void keyReleaseEvent(QKeyEvent *event) override;
 
-    void test(QString filePath);
+    void changeAlgorithm(QString a);
 
     void terminateThread();
 
@@ -40,6 +40,8 @@ public:
     double getMouseY() override;
     void setSelectedNode(Vertex *v) override;
     Vertex *getSelectedNode() override;
+
+    void loadGraph(char *p);
 
     void degreeC();
     void distanceC();

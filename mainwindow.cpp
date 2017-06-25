@@ -30,7 +30,6 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::on_pushButton_clicked()
 {
-    ui->widget->terminateThread();
     QString file = QFileDialog::getOpenFileName(this,
                                                 "choose a file",
                                                 "D:/Qt_project/NetvizGL2 - Copy/Graphs",
@@ -38,8 +37,7 @@ void MainWindow::on_pushButton_clicked()
     if(!file.isEmpty()){
         char *p = new char[file.toStdString().size()];
         strcpy(p, file.toStdString().c_str());
-        ui->widget->setPath(p);
-        ui->widget->test("1");
+        ui->widget->loadGraph(p);
         ui->radioButton->setChecked(true);
     }
 }
@@ -54,17 +52,17 @@ void MainWindow::on_pushButton_2_clicked()
 
 void MainWindow::on_radioButton_clicked()
 {
-    ui->widget->test("1");
+    ui->widget->changeAlgorithm("1");
 }
 
 void MainWindow::on_radioButton_2_clicked()
 {
-    ui->widget->test("2");
+    ui->widget->changeAlgorithm("2");
 }
 
 void MainWindow::on_radioButton_3_clicked()
 {
-    ui->widget->test("3");
+    ui->widget->changeAlgorithm("3");
 }
 
 void MainWindow::on_pushButton_3_clicked()
