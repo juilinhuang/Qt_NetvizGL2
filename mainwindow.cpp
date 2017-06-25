@@ -28,7 +28,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
     ui->widget->terminateThread();
 }
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_pushButton_Open_clicked()
 {
     QString file = QFileDialog::getOpenFileName(this,
                                                 "choose a file",
@@ -38,11 +38,11 @@ void MainWindow::on_pushButton_clicked()
         char *p = new char[file.toStdString().size()];
         strcpy(p, file.toStdString().c_str());
         ui->widget->loadGraph(p);
-        ui->radioButton->setChecked(true);
+        ui->radioButton_Simple->setChecked(true);
     }
 }
 
-void MainWindow::on_pushButton_2_clicked()
+void MainWindow::on_pushButton_color_clicked()
 {
     QColor color;
     color = QColorDialog::getColor(Qt::white, this);
@@ -50,32 +50,32 @@ void MainWindow::on_pushButton_2_clicked()
     ui->widget->setSelectedVertexColour(color.red(), color.green(), color.blue());
 }
 
-void MainWindow::on_radioButton_clicked()
+void MainWindow::on_radioButton_Simple_clicked()
 {
     ui->widget->changeAlgorithm("1");
 }
 
-void MainWindow::on_radioButton_2_clicked()
+void MainWindow::on_radioButton_FR_clicked()
 {
     ui->widget->changeAlgorithm("2");
 }
 
-void MainWindow::on_radioButton_3_clicked()
+void MainWindow::on_radioButton_Multiforce_clicked()
 {
     ui->widget->changeAlgorithm("3");
 }
 
-void MainWindow::on_pushButton_3_clicked()
+void MainWindow::on_pushButton_degree_clicked()
 {
     ui->widget->degreeC();
 }
 
-void MainWindow::on_pushButton_4_clicked()
+void MainWindow::on_pushButton_distance_clicked()
 {
     ui->widget->distanceC();
 }
 
-void MainWindow::on_pushButton_5_clicked()
+void MainWindow::on_pushButton_between_clicked()
 {
     ui->widget->betweennessC();
 }

@@ -18,56 +18,47 @@ private:
     GLdouble colourR;
     GLdouble colourG;
     GLdouble colourB;
-
-    GLuint *indices;
-    GLint indIndex;
-
     GLdouble *vertices;
     GLdouble *colours;
-
+    GLuint *indices;
+    GLint indIndex;
+    GLdouble *pos;
     std::mutex mtx;
 
-    //  FTPixmapFont *font;
 
-    GLdouble *pos;
+
 public:
     static const unsigned int rings = 12, sectors = 12;
     static constexpr double radius = 0.01;
 
-    Vertex(GLdouble offsetx, GLdouble offsety, GLdouble offsetz);
-    virtual ~Vertex();
-
-//    vector<Vertex *> attachedPoints;
-//    vector<Edge *> edges;
-//    void attachPoint(Vertex *p);
-
     int degree = 0;
     int level;
     int vertexNumber = 0;
-
     GLdouble posX, posY, posZ;
     GLdouble force;
     GLdouble forceX, forceY, forceZ;
     GLdouble velocityX, velocityY, velocityZ;
+    bool selected;
+    //    vector<Vertex *> attachedPoints;
+    //    vector<Edge *> edges;
 
+    Vertex(GLdouble offsetx, GLdouble offsety, GLdouble offsetz);
+    virtual ~Vertex();
+
+    void update();
+    void draw();
+    void drawText();
     void setColour(GLdouble r, GLdouble g, GLdouble b);
     GLdouble *getColour(GLdouble *colours);
-
-    void draw();
-    void update();
-
-    bool selected;
     bool isPointerOver(double x, double y, int width, int height);
     double getDepth();
-
     void *getScreenPosition(GLdouble *pos);
     void setPositionFromScreen(double x, double y);
+    //    void attachPoint(Vertex *p);
 
-    void drawText();
-    void setText(const char *t);
+    //  FTPixmapFont *font;
     char *text;
-
-//    GLdouble *vertices;
+    void setText(const char *t);
 };
 
 #endif //NETVIZGL_SPHERE_H

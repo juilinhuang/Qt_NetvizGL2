@@ -131,10 +131,6 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
     mouseY = event->pos().y();
     if(event->button() & Qt::LeftButton){
         isMouseLeftDown = true;
-//        double xx = (double)(event->pos().x() * 2 - width()) / (double)width();
-//        double yy = (double)(event->pos().y() * 2 - height()) / (double)height();
-//        qDebug() << "left ( " << xx << ", " << yy << " )";
-//        qDebug() << "left ( " << event->pos().x() << ", " << event->pos().y() << " )";
     }
     if(event->button() & Qt::MiddleButton){
         isMouseMiddleDown = true;
@@ -191,9 +187,8 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
     }
     if (isMouseLeftDown && isKeyCtrlDown) {
         t->pause();
-        selectedNode->posX -= mouseDiffX * 0.15 * translateZ;
-        selectedNode->posY += mouseDiffY * 0.15 * translateZ;
-
+        selectedNode->posX -= mouseDiffX * 0.145 * translateZ;
+        selectedNode->posY += mouseDiffY * 0.145 * translateZ;
     }
     mouseX = event->pos().x();
     mouseY = event->pos().y();
@@ -233,14 +228,14 @@ void GLWidget:: keyPressEvent(QKeyEvent *event)
         translateX = 0;
         translateY = 0;
     }
-    if (selectedNode != NULL){
-        if(event->key() == Qt::Key_Left){
-            selectedNode->posX -= 100;
-        }
-        if(event->key() == Qt::Key_Right){
-            selectedNode->posX += 100;
-        }
-    }
+//    if (selectedNode != NULL){
+//        if(event->key() == Qt::Key_Left){
+//            selectedNode->posX -= 100;
+//        }
+//        if(event->key() == Qt::Key_Right){
+//            selectedNode->posX += 100;
+//        }
+//    }
     if (event->key() == Qt::Key_Control){
         isKeyCtrlDown = true;
     }

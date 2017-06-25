@@ -24,6 +24,10 @@ Edge::Edge(Vertex *base, Vertex *connect) : base(base), connect(connect){
     //  font->FaceSize(12);
 }
 
+Edge::~Edge() {
+    delete vertices;
+}
+
 void Edge::update() {
     posX1 = base->posX;
     posY1 = base->posY;
@@ -38,10 +42,6 @@ void Edge::update() {
     vertices[3] = posX2 * scale * 0.1;
     vertices[4] = posY2 * scale * 0.1;
     vertices[5] = posZ2 * scale * 0.1;
-}
-
-Edge::~Edge() {
-    delete vertices;
 }
 
 void Edge::draw() {

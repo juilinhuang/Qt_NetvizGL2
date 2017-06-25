@@ -18,21 +18,21 @@ public:
     void closeEvent(QCloseEvent *event) override;
 
 private slots:
-    void on_pushButton_clicked();
+    void on_pushButton_Open_clicked();
 
-    void on_pushButton_2_clicked();
+    void on_pushButton_color_clicked();
 
-    void on_radioButton_clicked();
+    void on_radioButton_Simple_clicked();
 
-    void on_radioButton_2_clicked();
+    void on_radioButton_FR_clicked();
 
-    void on_radioButton_3_clicked();
+    void on_radioButton_Multiforce_clicked();
 
-    void on_pushButton_3_clicked();
+    void on_pushButton_degree_clicked();
 
-    void on_pushButton_4_clicked();
+    void on_pushButton_distance_clicked();
 
-    void on_pushButton_5_clicked();
+    void on_pushButton_between_clicked();
 
 private:
     Ui::MainWindow *ui;

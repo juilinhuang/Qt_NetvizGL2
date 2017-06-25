@@ -102,6 +102,10 @@ EdgeGraph::EdgeGraph(char *filePath) : Graph(filePath) {
 //}
 */
 
+EdgeGraph::~EdgeGraph() {
+    //    fprintf(stderr, "Deleting EdgeGraph\n");
+}
+
 /*
 //void EdgeGraph::draw() {
 //    for (int i = 0; i < numVertices; ++i) {
@@ -138,19 +142,7 @@ void EdgeGraph::read(char *filePath) {
     }
     inFile.close();
 
-//    numVertices = set.size();
-//    qDebug() << "set.size() = " << set.size();
-
-    for (int i = 0; i < edgeList.size(); ++i) {
-        if (edgeList[i][0] > numVertices) {
-            numVertices = (unsigned long) edgeList[i][0];
-        }
-        if (edgeList[i][1] > numVertices) {
-            numVertices = (unsigned long) edgeList[i][1];
-        }
-    }
-    numVertices++;
-
+    numVertices = set.size();
 
     for (int i = 0; i < numVertices; ++i) {
         vector<int> row;
@@ -173,21 +165,6 @@ void EdgeGraph::read(char *filePath) {
         adjacencyMatrix[edgeList[k][0]][edgeList[k][1]] = 1;
         adjacencyMatrix[edgeList[k][1]][edgeList[k][0]] = 1;
     }
-
-    /*
-//    int *temp = new int[2];
-//    edgeList.clear();
-//    for (int i = 0; i < numVertices; ++i) {
-//        for (int j = i; j < numVertices; ++j) {
-//            if (adjacencyMatrix[i][j] == 1) {
-//                temp[0] = i;
-//                temp[1] = j;
-//                edgeList.push_back(temp);
-//                temp = new int[2];
-//            }
-//        }
-//    }
-*/
 
     numEdges = edgeList.size();
 
@@ -222,8 +199,3 @@ int *EdgeGraph::split(string str) {
 //bool EdgeGraph::validate(char *filePath) {
 //}
 */
-
-EdgeGraph::~EdgeGraph() {
-    //    fprintf(stderr, "Deleting EdgeGraph\n");
-}
-

@@ -11,8 +11,8 @@
 class EdgeGraph : public Graph {
 public:
     EdgeGraph(char *filePath);
-    EdgeGraph(char *filePath, vector<int *> newEdgeList);
-    EdgeGraph(vector<int *> newEdgeList);
+//    EdgeGraph(char *filePath, vector<int *> newEdgeList);
+//    EdgeGraph(vector<int *> newEdgeList);
     virtual ~EdgeGraph();
 
 //    virtual void draw();
