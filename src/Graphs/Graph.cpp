@@ -15,6 +15,26 @@ Graph::~Graph() {
     adjacencyMatrix.clear();
 }
 
+void Graph::initialiseAdjacencyMatrix()
+{
+    for (int i = 0; i < numVertices; ++i) {
+        vector<int> row;
+        adjacencyMatrix.push_back(row);
+        for (int j = 0; j < numVertices; ++j) {
+            adjacencyMatrix[i].push_back(0);
+        }
+    }
+//    for (int k = 0; k < edgeList.size(); ++k) {
+//        adjacencyMatrix[edgeList[k][0]][edgeList[k][1]] = 1;
+//        adjacencyMatrix[edgeList[k][1]][edgeList[k][0]] = 1;
+//    }
+}
+
+vector<vector<int> > Graph::getAdjacencyMatrix() const
+{
+    return adjacencyMatrix;
+}
+
 void Graph::update() {
     for (int i = 0; i < numVertices; ++i) {
         vertices[i]->update();

@@ -28,23 +28,13 @@ GLWidget::GLWidget(QWidget *parent):QOpenGLWidget(parent)
     translateX = 0;
     translateY = 0;
     translateZ = 1.8;
-
     isMouseLeftDown = false;
     isMouseMiddleDown = false;
     isMouseRightDown = false;
-
     isKeyCtrlDown = false;
 
     c = new LoadGraph(this);
     sv = new SelectVertex(this);
-
-/*
-//    path = "D:/Qt_project/NetvizGL2/Graphs/EdgeLinks/graph.txt";
-//    graph = new MatrixMarketGraph("D:/Qt_project/NetvizGL2/Graphs/MatrixMarket/ash85.mtx");
-//    graph = new AdjacencyGraph("D:/Qt_project/NetvizGL2/Graphs/Adjacency/sirpenski5.txt");
-//    graph = new EdgeGraph("D:/Qt_project/NetvizGL2/Graphs/EdgeLinks/graph.txt");
-//    graph->vertices[0]->setColour(1,0,0);
-*/
 
     t = NULL;
     graph = NULL;
@@ -85,10 +75,6 @@ void GLWidget::paintGL()
     glLoadIdentity();
     gluPerspective(45, (double)width()/(double)height(), 0.01, 10);
     glTranslatef(translateX, translateY, -translateZ);
-
-//    glLoadIdentity();
-//    gluLookAt(translateX,translateY,zPos, xLookAt,yLookAt,zLookAt, 0,1,0);
-
     glEnableClientState(GL_COLOR_ARRAY);
     glEnableClientState(GL_VERTEX_ARRAY);
 
@@ -113,7 +99,6 @@ void GLWidget::paintGL()
 
     glDisableClientState(GL_COLOR_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);
-//    glDisable(GL_LINE_SMOOTH);
 
     /*
      * ---end of drawing---
@@ -134,7 +119,6 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
     }
     if(event->button() & Qt::MiddleButton){
         isMouseMiddleDown = true;
-//        qDebug() << "middle";
     }
     if(event->button() & Qt::RightButton){
         glLoadIdentity();
@@ -152,17 +136,14 @@ void GLWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     if(event->button() & Qt::LeftButton){
         isMouseLeftDown = false;
-//        qDebug() << "left";
     }
     if(event->button() & Qt::MiddleButton){
         isMouseMiddleDown = false;
-//        qDebug() << "middle";
     }
     if(event->button() & Qt::RightButton){
         isMouseRightDown = false;
-//        qDebug() << "right";
     }
-//    qDebug() << "(" << event->pos().x() << ", " << event->pos().y() << ")";
+
     mouseX = event->pos().x();
     mouseY = event->pos().y();
     t->resume();
@@ -190,6 +171,7 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
         selectedNode->posX -= mouseDiffX * 0.145 * translateZ;
         selectedNode->posY += mouseDiffY * 0.145 * translateZ;
     }
+
     mouseX = event->pos().x();
     mouseY = event->pos().y();
     update();
@@ -210,13 +192,7 @@ void GLWidget::wheelEvent(QWheelEvent *event)
 void GLWidget:: keyPressEvent(QKeyEvent *event)
 {
     if(event->key() == Qt::Key_A){
-        qDebug() << "A";
-        if (graph != NULL){
-            terminateThread();
-            t = new TestThread(this);
-            t->addAlgorithm(new MultiForce(graph));
-            t->start();
-        }
+
     }
     if(event->key() == Qt::Key_Escape){
 //        terminateThread();
@@ -245,7 +221,7 @@ void GLWidget:: keyPressEvent(QKeyEvent *event)
 void GLWidget::keyReleaseEvent(QKeyEvent *event)
 {
     if(event->key() == Qt::Key_A){
-//        qDebug() << "A";
+
     }
     if (event->key() == Qt::Key_Control){
         isKeyCtrlDown = false;
@@ -266,10 +242,8 @@ void GLWidget::changeAlgorithm(QString a)
         if(a == '3')
             t->addAlgorithm(new MultiForce(graph));
         t->start();
-        qDebug() << t;
     }
     setFocus();
-//    qDebug() << filePath;
 }
 
 void GLWidget::terminateThread()
@@ -279,7 +253,6 @@ void GLWidget::terminateThread()
         t->wait();
         delete t;
         t = NULL;
-        qDebug() << t;
     }
 }
 

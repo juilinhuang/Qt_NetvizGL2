@@ -15,13 +15,11 @@ public:
 //    EdgeGraph(vector<int *> newEdgeList);
     virtual ~EdgeGraph();
 
-//    virtual void draw();
-//    virtual void update();
-
 private:
-    virtual void read(char *filePath);
-    virtual int *split(string str);
-//    bool validate(char *filePath);
+    virtual void read(char *filePath) override;
+    virtual int *split(string str) override;
+    void createGraphData();
+//    string *getEdgeList(string str);
 };
 
 #endif //NETVIZGL_EDGEGRAPH_H

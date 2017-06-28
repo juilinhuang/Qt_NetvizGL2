@@ -11,6 +11,10 @@ MatrixMarketGraph::MatrixMarketGraph(char *filePath) : Graph(filePath) {
     read(filePath);
 }
 
+MatrixMarketGraph::~MatrixMarketGraph() {
+//    fprintf(stderr, "Deleting MatrixGraph\n");
+}
+
 // Taken from the example @ http://math.nist.gov/MatrixMarket/mmio-c.html
 void MatrixMarketGraph::read(char *filePath) {
     int ret_code;
@@ -66,18 +70,20 @@ void MatrixMarketGraph::read(char *filePath) {
     numVertices = (unsigned long) rows;
 
     //Initialise Adj Matrix
-    for (int i = 0; i < numVertices; ++i) {
-        vector<int> row;
-        adjacencyMatrix.push_back(row);
-        for (int j = 0; j < numVertices; ++j) {
-            adjacencyMatrix[i].push_back(0);
-        }
-    }
+//    for (int i = 0; i < numVertices; ++i) {
+//        vector<int> row;
+//        adjacencyMatrix.push_back(row);
+//        for (int j = 0; j < numVertices; ++j) {
+//            adjacencyMatrix[i].push_back(0);
+//        }
+//    }
 
     for (int j = 0; j < numVertices; ++j) {
         vertices.push_back(new Vertex(0, 0, 0));
         vertices[j]->setColour(0, 0, 0);
     }
+
+    initialiseAdjacencyMatrix();
 
     //Attach points to each other
     for (int k = 0; k < edgs; ++k) {
@@ -126,23 +132,4 @@ int *MatrixMarketGraph::split(string str)
     return NULL;
 }
 
-/*
-//void MatrixMarketGraph::draw() {
-//    for (int i = 0; i < numVertices; ++i) {
-//        vertices[i]->draw();
-//    }
-//    for (int i = 0; i < numVertices; ++i) {
-//        vertices[i]->drawText();
-//    }
-//}
 
-//void MatrixMarketGraph::update() {
-//    for (int i = 0; i < numVertices; ++i) {
-//        vertices[i]->update();
-//    }
-//}
-*/
-
-MatrixMarketGraph::~MatrixMarketGraph() {
-//    fprintf(stderr, "Deleting MatrixGraph\n");
-}
