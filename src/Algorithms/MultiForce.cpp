@@ -14,8 +14,8 @@ MultiForce::MultiForce(Graph *g) : Algorithm(g) {
     //  L = 72;
     //  W = 64;
     //  L = 36;
-    W = 80;
-    L = 45;
+    W = 40;
+    L = 30;
     area = W * L;
     k = sqrt(area / (double) graph->numVertices);
     t = graph->numVertices;
