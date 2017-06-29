@@ -125,7 +125,9 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
         gluPerspective(45, (double)width()/(double)height(), 0.01, 10);
         glTranslatef(translateX, translateY, -translateZ);
         glViewport(0, 0, width(), height());
-        sv->execute();
+        if(graph != NULL){
+            sv->execute();
+        }
 
         isMouseRightDown = true;
     }
@@ -146,7 +148,9 @@ void GLWidget::mouseReleaseEvent(QMouseEvent *event)
 
     mouseX = event->pos().x();
     mouseY = event->pos().y();
-    t->resume();
+    if(t != NULL){
+        t->resume();
+    }
     update();
 }
 
@@ -191,8 +195,12 @@ void GLWidget::wheelEvent(QWheelEvent *event)
 
 void GLWidget:: keyPressEvent(QKeyEvent *event)
 {
-    if(event->key() == Qt::Key_A){
-
+    if(event->key() == Qt::Key_Delete){
+//        QVector<Vertex*> qvec = QVector<Vertex*>::fromStdVector(graph->vertices);
+//        qDebug() << graph->vertices.size();
+//                    qvec.removeOne(selectedNode);
+//        graph->vertices = qvec.toStdVector();
+//        qDebug() << graph->vertices.size();
     }
     if(event->key() == Qt::Key_Escape){
 //        terminateThread();
