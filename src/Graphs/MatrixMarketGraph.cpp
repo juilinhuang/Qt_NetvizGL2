@@ -7,7 +7,7 @@
 #include "../../inc/Graphs/mmio.h"
 #include "../../src/Graphs/mmio.c"
 
-MatrixMarketGraph::MatrixMarketGraph(char *filePath) : Graph(filePath) {
+MatrixMarketGraph::MatrixMarketGraph(char *filePath) {
     read(filePath);
 }
 
@@ -121,7 +121,7 @@ void MatrixMarketGraph::read(char *filePath) {
         }
     }
     numEdges = edgeList.size();
-
+    setRandomColour();
     //  for (int i = 0; i < edgeList.size(); ++i) {
     //    fprintf(stderr, "%d,%d\n", edgeList[i][0], edgeList[i][1]);
     //  }

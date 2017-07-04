@@ -5,6 +5,7 @@
 #include <iostream>
 #include "inc/vertex.h"
 
+
 Vertex::Vertex(GLdouble offsetx, GLdouble offsety, GLdouble offsetz) {
     selected = false;
     //  font = new FTGLPixmapFont("../Fonts/arial.ttf");
@@ -254,4 +255,12 @@ void Vertex::setText(const char *t) {
     strcpy(text, t);
 }
 
+string Vertex::getName() const
+{
+    return name;
+}
 
+void Vertex::setName(const string &value)
+{
+    name = value;
+}

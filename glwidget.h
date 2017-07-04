@@ -24,10 +24,8 @@ public:
     void keyPressEvent(QKeyEvent *event) override;
     void keyReleaseEvent(QKeyEvent *event) override;
 
-    void changeAlgorithm(QString a);
-
+    void changeAlgorithm(char a);
     void terminateThread();
-
     void setSelectedVertexColour(int r, int g, int b);
 
     Graph *getGraph() override;
@@ -40,6 +38,11 @@ public:
     double getMouseY() override;
     void setSelectedNode(Vertex *v) override;
     Vertex *getSelectedNode() override;
+    GLdouble getMouseDiffX() const override;
+    GLdouble getMouseDiffY() const override;
+    GLdouble getTranslateZ() const override;
+    int getSelectedVertexNumber() const override;
+    void setSelectedVertexNumber(int value) override;
 
     void loadGraph(char *p);
 
@@ -47,24 +50,30 @@ public:
     void distanceC();
     void betweennessC();
 
+    void saveScreenshot();
+
+
+
 private:
     QTimer *timer;
     TestThread *t;
-    Algorithm *algorithm;
+    char algorithm;
     char* path;
 
-    Command *c;
-    Command *sv;
+//    Command *c;
+//    Command *sv;
 
-    GLdouble pitch, yaw, bank;
-    GLdouble translateX, translateY, translateZ;
-    GLdouble mouseX, mouseY, mouseDiffX, mouseDiffY;
-    bool isMouseLeftDown, isMouseMiddleDown, isMouseRightDown;
-    bool isKeyCtrlDown;
+//    GLdouble pitch, yaw, bank;
+//    GLdouble translateX, translateY, translateZ;
+//    GLdouble mouseX, mouseY, mouseDiffX, mouseDiffY;
+//    bool isMouseLeftDown, isMouseMiddleDown, isMouseRightDown;
+//    bool isKeyCtrlDown;
 
 
-    Graph *graph;
-    Vertex *selectedNode;
+//    Graph *graph;
+//    Vertex *selectedNode;
+
+    QPixmap originalPixmap;
 
 
 //    GLfloat vertex[9] = {+0.0, +0.0, +0.0,

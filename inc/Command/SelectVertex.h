@@ -55,7 +55,7 @@ public:
         for (int i = 0; i < pointerOver.size(); i++) {
             if (closest == depthValues[i]) {
                 pointerOver[i]->selected = true;
-//                window->selectedVertexNumber = pointerOver[i]->vertexNumber;
+                window->setSelectedVertexNumber(pointerOver[i]->vertexNumber);
                 window->setSelectedNode(pointerOver[i]);
             }
         }

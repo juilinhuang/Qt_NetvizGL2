@@ -8,40 +8,31 @@
 #include <QDebug>
 #include <QSet>
 
-EdgeGraph::EdgeGraph(char *filePath) : Graph(filePath) {
+EdgeGraph::EdgeGraph(char *filePath) {
     read(filePath);
 }
 
+EdgeGraph::EdgeGraph(vector<int *> newEdgeList) {
+    edgeList = newEdgeList;
 
-/*
-//EdgeGraph::EdgeGraph(char *filePath, vector<int *> newEdgeList)
-//    : Graph(filePath) {
-//    edgeList = newEdgeList;
+    for (int i = 0; i < edgeList.size(); ++i) {
+        if (edgeList[i][0] > numVertices) {
+            numVertices = (unsigned long) edgeList[i][0];
+        }
+        if (edgeList[i][1] > numVertices) {
+            numVertices = (unsigned long) edgeList[i][1];
+        }
+    }
+    numVertices++;
 
-//    for (int i = 0; i < edgeList.size(); ++i) {
-//        if (edgeList[i][0] > numVertices) {
-//            numVertices = (unsigned long) edgeList[i][0];
-//        }
-//        if (edgeList[i][1] > numVertices) {
-//            numVertices = (unsigned long) edgeList[i][1];
-//        }
-//    }
-//    numVertices++;
+    createGraphData();
 
-//    createGraphData();
+    numEdges = edgeList.size();
 
-//    numEdges = edgeList.size();
-
-//    //  for (int i = 0; i < edgeList.size(); ++i) {
-//    //    fprintf(stderr, "%d,%d\n", edgeList[i][0], edgeList[i][1]);
-//    //  }
-//}
-*/
-
-/*
-//EdgeGraph::EdgeGraph(vector<int *> newEdgeList) : EdgeGraph((char *) "./tempGraph", newEdgeList){
-//}
-*/
+    //  for (int i = 0; i < edgeList.size(); ++i) {
+    //    fprintf(stderr, "%d,%d\n", edgeList[i][0], edgeList[i][1]);
+    //  }
+}
 
 EdgeGraph::~EdgeGraph() {
     //    fprintf(stderr, "Deleting EdgeGraph\n");
@@ -74,15 +65,6 @@ void EdgeGraph::read(char *filePath) {
 
     numEdges = edges.size();
 
-    //    std::set<string>::iterator itt;
-    //    int ii = 0;
-    //    for(itt = set.begin(); itt != set.end(); itt++){
-    //        vertices[ii]->setName(*itt);
-    //        const char *s = vertices[ii]->getName().c_str();
-    //        qDebug() << s;
-    //        ii++;
-    //    }
-
     /*
     //  for (int i = 0; i < edgeList.size(); ++i) {
     //    fprintf(stderr, "%d,%d\n", edgeList[i][0], edgeList[i][1]);
@@ -111,21 +93,36 @@ int *EdgeGraph::split(string str) {
 
 void EdgeGraph::createGraphData()
 {
+    adjacencyMatrix.clear();
+    initialiseAdjacencyMatrix();
+    for (int k = 0; k < edgeList.size(); ++k) {
+        adjacencyMatrix[edgeList[k][0]][edgeList[k][1]] = 1;
+        adjacencyMatrix[edgeList[k][1]][edgeList[k][0]] = 1;
+    }
+    edgeList.clear();
+    int *temp = new int[2];
+    for (int i = 0; i < numVertices; ++i) {
+        for (int j = i; j < numVertices; ++j) {
+            if (adjacencyMatrix[i][j] == 1 && i != j) {
+                temp[0] = i;
+                temp[1] = j;
+                edgeList.push_back(temp);
+                temp = new int[2];
+            }
+        }
+    }
     vertices.clear();
     for (int j = 0; j < numVertices; ++j) {
         vertices.push_back(new Vertex(0, 0, 0));
         vertices[j]->setColour(0, 0, 0);
     }
-    adjacencyMatrix.clear();
-    initialiseAdjacencyMatrix();
     for (int k = 0; k < edgeList.size(); ++k) {
-        if(edgeList[k][0] != edgeList[k][1])
-            edges.push_back(new Edge(vertices[edgeList[k][0]], vertices[edgeList[k][1]]));
+        edges.push_back(new Edge(vertices[edgeList[k][0]], vertices[edgeList[k][1]]));
         vertices[edgeList[k][0]]->degree++;
         vertices[edgeList[k][1]]->degree++;
-        adjacencyMatrix[edgeList[k][0]][edgeList[k][1]] = 1;
-        adjacencyMatrix[edgeList[k][1]][edgeList[k][0]] = 1;
     }
+    qDebug() << edges.size();
+    setRandomColour();
 }
 
 //string *EdgeGraph::getEdgeList(string str){

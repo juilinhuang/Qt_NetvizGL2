@@ -5,12 +5,12 @@
 #include "../../inc/Graphs/Graph.h"
 #include <QDebug>
 
-Graph::Graph(char *filePath) {
+Graph::Graph() {
     numVertices = 0;
 }
 
 Graph::~Graph() {
-//    fprintf(stderr, "Deleting Graph\n");
+    //    fprintf(stderr, "Deleting Graph\n");
     vertices.clear();
     adjacencyMatrix.clear();
 }
@@ -32,25 +32,25 @@ vector<vector<int> > Graph::getAdjacencyMatrix() const
 }
 
 void Graph::update() {
-    for (int i = 0; i < numVertices; ++i) {
+    for (int i = 0; i < vertices.size(); ++i) {
         vertices[i]->update();
     }
-    for (int i = 0; i < numEdges; ++i) {
+    for (int i = 0; i < edges.size(); ++i) {
         edges[i]->update();
     }
 }
 
 void Graph::draw() {
-    for (int i = 0; i < numVertices; ++i) {
+    for (int i = 0; i < vertices.size(); ++i) {
         vertices[i]->draw();
     }
-    for (int i = 0; i < numVertices; ++i) {
+    for (int i = 0; i < vertices.size(); ++i) {
         vertices[i]->drawText();
     }
-    for (int i = 0; i < numEdges; ++i) {
+    for (int i = 0; i < edges.size(); ++i) {
         edges[i]->draw();
     }
-    for (int i = 0; i < numEdges; ++i) {
+    for (int i = 0; i < edges.size(); ++i) {
         edges[i]->drawText();
     }
 }
@@ -78,3 +78,13 @@ unsigned int Graph::hash3(unsigned int h1, unsigned int h2, unsigned int h3) {
 //    return ret;
 //}
 
+void Graph::setRandomColour(){
+    struct timeval time;
+    gettimeofday(&time, NULL);
+    srand(Graph::hash3(time.tv_sec, time.tv_usec, getpid()));
+    for (int j = 0; j < vertices.size(); ++j) {
+        vertices[j]->setColour(((double) rand() / (RAND_MAX)),
+                               ((double) rand() / (RAND_MAX)),
+                               ((double) rand() / (RAND_MAX)));
+    }
+}

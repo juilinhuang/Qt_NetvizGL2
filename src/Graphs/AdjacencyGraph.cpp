@@ -9,7 +9,7 @@
 #include "../../inc/Graphs/AdjacencyGraph.h"
 #include <QDebug>
 
-AdjacencyGraph::AdjacencyGraph(char *filePath) : Graph(filePath) {
+AdjacencyGraph::AdjacencyGraph(char *filePath) {
     read(filePath);
 }
 
@@ -82,6 +82,8 @@ void AdjacencyGraph::read(char *filePath) {
         }
     }
     numEdges = edgeList.size();
+
+    setRandomColour();
 
     //  for (int i = 0; i < edgeList.size(); ++i) {
     //    fprintf(stderr, "%d,%d\n", edgeList[i][0], edgeList[i][1]);
