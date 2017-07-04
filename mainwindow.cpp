@@ -52,17 +52,17 @@ void MainWindow::on_pushButton_color_clicked()
 
 void MainWindow::on_radioButton_Simple_clicked()
 {
-    ui->widget->changeAlgorithm("1");
+    ui->widget->changeAlgorithm('1');
 }
 
 void MainWindow::on_radioButton_FR_clicked()
 {
-    ui->widget->changeAlgorithm("2");
+    ui->widget->changeAlgorithm('2');
 }
 
 void MainWindow::on_radioButton_Multiforce_clicked()
 {
-    ui->widget->changeAlgorithm("3");
+    ui->widget->changeAlgorithm('3');
 }
 
 void MainWindow::on_pushButton_degree_clicked()

@@ -9,26 +9,9 @@
 #include "../../inc/Graphs/AdjacencyGraph.h"
 #include <QDebug>
 
-AdjacencyGraph::AdjacencyGraph(char *filePath) : Graph(filePath) {
+AdjacencyGraph::AdjacencyGraph(char *filePath) {
     read(filePath);
 }
-
-/*
-//void AdjacencyGraph::draw() {
-//    for (int i = 0; i < numVertices; ++i) {
-//        vertices[i]->draw();
-//    }
-//    for (int i = 0; i < numVertices; ++i) {
-//        vertices[i]->drawText();
-//    }
-//}
-
-//void AdjacencyGraph::update() {
-//    for (int i = 0; i < numVertices; ++i) {
-//        vertices[i]->update();
-//    }
-//}
-*/
 
 void AdjacencyGraph::read(char *filePath) {
     string inString;
@@ -53,13 +36,15 @@ void AdjacencyGraph::read(char *filePath) {
 
 //    fprintf(stdout, "Vertices - %d\n", numVertices);
 
-    for (int i = 0; i < numVertices; ++i) {
-        vector<int> row;
-        adjacencyMatrix.push_back(row);
-        for (int j = 0; j < numVertices; ++j) {
-            adjacencyMatrix[i].push_back(0);
-        }
-    }
+//    for (int i = 0; i < numVertices; ++i) {
+//        vector<int> row;
+//        adjacencyMatrix.push_back(row);
+//        for (int j = 0; j < numVertices; ++j) {
+//            adjacencyMatrix[i].push_back(0);
+//        }
+//    }
+
+    initialiseAdjacencyMatrix();
 
     for (int i = 0; i < numVertices; ++i) {
         for (int j = 0; j < numVertices; ++j) {
@@ -97,6 +82,8 @@ void AdjacencyGraph::read(char *filePath) {
         }
     }
     numEdges = edgeList.size();
+
+    setRandomColour();
 
     //  for (int i = 0; i < edgeList.size(); ++i) {
     //    fprintf(stderr, "%d,%d\n", edgeList[i][0], edgeList[i][1]);

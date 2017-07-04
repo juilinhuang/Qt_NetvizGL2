@@ -34,6 +34,7 @@ public:
     int degree = 0;
     int level;
     int vertexNumber = 0;
+    string name;
     GLdouble posX, posY, posZ;
     GLdouble force;
     GLdouble forceX, forceY, forceZ;
@@ -59,6 +60,9 @@ public:
     //  FTPixmapFont *font;
     char *text;
     void setText(const char *t);
+
+    string getName() const;
+    void setName(const string &value);
 };
 
 #endif //NETVIZGL_SPHERE_H

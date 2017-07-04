@@ -10,10 +10,6 @@
 class MatrixMarketGraph : public Graph {
 public:
     MatrixMarketGraph(char *filePath);
-
-//    void draw() override;
-//    void update() override;
-
     ~MatrixMarketGraph() override;
 
 private:

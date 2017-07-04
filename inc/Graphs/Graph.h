@@ -12,6 +12,7 @@
 #include <sstream>
 #include <iterator>
 #include <iostream>
+#include <sys/time.h>
 #include "../Vertex.h"
 #include "../Edge.h"
 
@@ -22,7 +23,7 @@ using namespace std;
 
 class Graph {
 public:
-    Graph(char *filePath);
+    Graph();
     virtual ~Graph();
 
     unsigned long numVertices;
@@ -37,6 +38,12 @@ public:
     void update();
     void draw();
     static unsigned int hash3(unsigned int h1, unsigned int h2, unsigned int h3);
+
+    vector<vector<int> > getAdjacencyMatrix() const;
+
+protected:
+    void initialiseAdjacencyMatrix();
+    void setRandomColour();
 
 private:
     virtual void read(char *filePath) = 0;
