@@ -7,8 +7,12 @@
 #include "../../inc/Graphs/mmio.h"
 #include "../../src/Graphs/mmio.c"
 
-MatrixMarketGraph::MatrixMarketGraph(char *filePath) : Graph(filePath) {
+MatrixMarketGraph::MatrixMarketGraph(char *filePath) {
     read(filePath);
+}
+
+MatrixMarketGraph::~MatrixMarketGraph() {
+//    fprintf(stderr, "Deleting MatrixGraph\n");
 }
 
 // Taken from the example @ http://math.nist.gov/MatrixMarket/mmio-c.html
@@ -20,12 +24,12 @@ void MatrixMarketGraph::read(char *filePath) {
     int i, *I, *J;
 
     if ((f = fopen(filePath, "r")) == NULL) {
-        fprintf(stderr, "File not Opened");
+//        fprintf(stderr, "File not Opened");
         return;
     }
 
     if (mm_read_banner(f, &matcode) != 0) {
-        printf("\nCould not process Matrix Market banner.\n");
+//        printf("\nCould not process Matrix Market banner.\n");
         exit(1);
     }
 
@@ -33,9 +37,9 @@ void MatrixMarketGraph::read(char *filePath) {
     /*  only supports a subset of the Matrix Market data types.      */
     //  if (!mm_is_coordinate(matcode) || mm_is_integer(matcode)) {
     if (!mm_is_coordinate(matcode) || !mm_is_pattern(matcode) || !mm_is_symmetric(matcode)) {
-        printf("Sorry, this application only supports graphs that are:");
-        printf("Matrix Market type: [%s][%s][%s]\n", MM_COORDINATE_STR, MM_PATTERN_STR, MM_SYMM_STR);
-        printf("and not: [%s]\n", MM_INT_STR);
+//        printf("Sorry, this application only supports graphs that are:");
+//        printf("Matrix Market type: [%s][%s][%s]\n", MM_COORDINATE_STR, MM_PATTERN_STR, MM_SYMM_STR);
+//        printf("and not: [%s]\n", MM_INT_STR);
         exit(1);
     }
 
@@ -57,7 +61,7 @@ void MatrixMarketGraph::read(char *filePath) {
 
     fclose(f);
 
-    fprintf(stdout, "\n%s\n", filePath);
+//    fprintf(stdout, "\n%s\n", filePath);
     mm_write_banner(stdout, matcode);
     mm_write_mtx_crd_size(stdout, rows, cols, edgs);
     //  for (i = 0; i < edgs; i++)
@@ -66,18 +70,20 @@ void MatrixMarketGraph::read(char *filePath) {
     numVertices = (unsigned long) rows;
 
     //Initialise Adj Matrix
-    for (int i = 0; i < numVertices; ++i) {
-        vector<int> row;
-        adjacencyMatrix.push_back(row);
-        for (int j = 0; j < numVertices; ++j) {
-            adjacencyMatrix[i].push_back(0);
-        }
-    }
+//    for (int i = 0; i < numVertices; ++i) {
+//        vector<int> row;
+//        adjacencyMatrix.push_back(row);
+//        for (int j = 0; j < numVertices; ++j) {
+//            adjacencyMatrix[i].push_back(0);
+//        }
+//    }
 
     for (int j = 0; j < numVertices; ++j) {
         vertices.push_back(new Vertex(0, 0, 0));
         vertices[j]->setColour(0, 0, 0);
     }
+
+    initialiseAdjacencyMatrix();
 
     //Attach points to each other
     for (int k = 0; k < edgs; ++k) {
@@ -115,27 +121,15 @@ void MatrixMarketGraph::read(char *filePath) {
         }
     }
     numEdges = edgeList.size();
-
+    setRandomColour();
     //  for (int i = 0; i < edgeList.size(); ++i) {
     //    fprintf(stderr, "%d,%d\n", edgeList[i][0], edgeList[i][1]);
     //  }
 }
 
-//void MatrixMarketGraph::draw() {
-//    for (int i = 0; i < numVertices; ++i) {
-//        vertices[i]->draw();
-//    }
-//    for (int i = 0; i < numVertices; ++i) {
-//        vertices[i]->drawText();
-//    }
-//}
-
-//void MatrixMarketGraph::update() {
-//    for (int i = 0; i < numVertices; ++i) {
-//        vertices[i]->update();
-//    }
-//}
-
-MatrixMarketGraph::~MatrixMarketGraph() {
-    fprintf(stderr, "Deleting MatrixGraph\n");
+int *MatrixMarketGraph::split(string str)
+{
+    return NULL;
 }
+
+

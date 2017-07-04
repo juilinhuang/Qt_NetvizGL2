@@ -10,26 +10,20 @@
 
 class Edge {
 public:
-
+    static const double scale;
     GLdouble posX1, posY1, posZ1;
     GLdouble posX2, posY2, posZ2;
+    GLdouble *vertices;
+    GLfloat *colours;
+    Vertex *base, *connect;
 
     Edge(Vertex *base,Vertex *connect);
-
     ~Edge();
 
-    GLdouble *vertices;
-
-    GLfloat *colours;
-
-    void draw();
-    void setColour(GLfloat r, GLfloat g, GLfloat b, GLfloat r2, GLfloat g2, GLfloat b2);
-
     void update();
-    static const double scale;
+    void draw();
     void drawText();
-
-    Vertex *base, *connect;
+    void setColour(GLfloat r, GLfloat g, GLfloat b, GLfloat r2, GLfloat g2, GLfloat b2);
 
 //  FTPixmapFont *font;
     char *text;

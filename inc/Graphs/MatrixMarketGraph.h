@@ -10,14 +10,11 @@
 class MatrixMarketGraph : public Graph {
 public:
     MatrixMarketGraph(char *filePath);
-
-//    void draw() override;
-//    void update() override;
-
     ~MatrixMarketGraph() override;
 
 private:
     void read(char *filePath) override;
+    int *split(string str) override;
 };
 
 #endif //NETVIZGL_MATRIXMARKETGRAPH_H
