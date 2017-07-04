@@ -7,25 +7,11 @@
 #include <zconf.h>
 #include <fstream>
 #include "../../inc/Graphs/AdjacencyGraph.h"
+#include <QDebug>
 
-AdjacencyGraph::AdjacencyGraph(char *filePath) : Graph(filePath) {
+AdjacencyGraph::AdjacencyGraph(char *filePath) {
     read(filePath);
 }
-
-//void AdjacencyGraph::draw() {
-//    for (int i = 0; i < numVertices; ++i) {
-//        vertices[i]->draw();
-//    }
-//    for (int i = 0; i < numVertices; ++i) {
-//        vertices[i]->drawText();
-//    }
-//}
-
-//void AdjacencyGraph::update() {
-//    for (int i = 0; i < numVertices; ++i) {
-//        vertices[i]->update();
-//    }
-//}
 
 void AdjacencyGraph::read(char *filePath) {
     string inString;
@@ -33,9 +19,9 @@ void AdjacencyGraph::read(char *filePath) {
 
     inFile.open(filePath);
     if (inFile.is_open()) {
-        fprintf(stderr, "Open %s \n", filePath);
+//        fprintf(stderr, "Open %s \n", filePath);
     } else {
-        fprintf(stderr, "Failed to open %s \n", filePath);
+//        fprintf(stderr, "Failed to open %s \n", filePath);
         exit(0);
     }
 
@@ -46,17 +32,19 @@ void AdjacencyGraph::read(char *filePath) {
     }
     inFile.close();
 
-    numVertices = (int) edgeList.size();
+    numVertices = static_cast<unsigned long>( edgeList.size() );
 
-    fprintf(stdout, "Vertices - %d\n", numVertices);
+//    fprintf(stdout, "Vertices - %d\n", numVertices);
 
-    for (int i = 0; i < numVertices; ++i) {
-        vector<int> row;
-        adjacencyMatrix.push_back(row);
-        for (int j = 0; j < numVertices; ++j) {
-            adjacencyMatrix[i].push_back(0);
-        }
-    }
+//    for (int i = 0; i < numVertices; ++i) {
+//        vector<int> row;
+//        adjacencyMatrix.push_back(row);
+//        for (int j = 0; j < numVertices; ++j) {
+//            adjacencyMatrix[i].push_back(0);
+//        }
+//    }
+
+    initialiseAdjacencyMatrix();
 
     for (int i = 0; i < numVertices; ++i) {
         for (int j = 0; j < numVertices; ++j) {
@@ -95,11 +83,30 @@ void AdjacencyGraph::read(char *filePath) {
     }
     numEdges = edgeList.size();
 
+    setRandomColour();
+
     //  for (int i = 0; i < edgeList.size(); ++i) {
     //    fprintf(stderr, "%d,%d\n", edgeList[i][0], edgeList[i][1]);
     //  }
 }
+
+int *AdjacencyGraph::split(string str)
+{
+    std::istringstream buf(str);
+    std::istream_iterator<std::string> beg(buf), end;
+
+    std::vector<std::string> tokens(beg, end);
+
+    qDebug() << "tokens.size() = " << tokens.size();
+
+    int *ret = new int[tokens.size()];
+    for (int i = 0; i < tokens.size(); ++i)
+        ret[i] = atoi(tokens[i].c_str());
+
+    return ret;
+}
+
 AdjacencyGraph::~AdjacencyGraph() {
-    fprintf(stderr, "Deleting AdjacencyGraph\n");
+//    fprintf(stderr, "Deleting AdjacencyGraph\n");
 
 }

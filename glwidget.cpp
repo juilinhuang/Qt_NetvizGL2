@@ -6,6 +6,8 @@
 #include <QWheelEvent>
 #include <QKeyEvent>
 #include <QCloseEvent>
+#include <QPixmap>
+#include <QtWidgets>
 #include "inc/Graphs/EdgeGraph.h"
 #include "inc/Graphs/AdjacencyGraph.h"
 #include "inc/Graphs/MatrixMarketGraph.h"
@@ -15,6 +17,8 @@
 #include "inc/Algorithms/MultiForce.h"
 #include "inc/Command/LoadGraph.h"
 #include "inc/Command/SelectVertex.h"
+#include "inc/Command/DragVertex.h"
+#include "inc/Command/DeleteVertex.h"
 #include "inc/Centrality/DegreeCentrality.h"
 #include "inc/Centrality/DistanceCentrality.h"
 #include "inc/Centrality/Betweenness.h"
@@ -27,33 +31,25 @@ GLWidget::GLWidget(QWidget *parent):QOpenGLWidget(parent)
 
     translateX = 0;
     translateY = 0;
-    translateZ = 1;
-
+    translateZ = 1.8;
     isMouseLeftDown = false;
     isMouseMiddleDown = false;
     isMouseRightDown = false;
-
     isKeyCtrlDown = false;
 
     c = new LoadGraph(this);
     sv = new SelectVertex(this);
-
-/*
-//    path = "D:/Qt_project/NetvizGL2/Graphs/EdgeLinks/graph.txt";
-//    graph = new MatrixMarketGraph("D:/Qt_project/NetvizGL2/Graphs/MatrixMarket/ash85.mtx");
-//    graph = new AdjacencyGraph("D:/Qt_project/NetvizGL2/Graphs/Adjacency/sirpenski5.txt");
-//    graph = new EdgeGraph("D:/Qt_project/NetvizGL2/Graphs/EdgeLinks/graph.txt");
-//    graph->vertices[0]->setColour(1,0,0);
-*/
+    dragv = new DragVertex(this);
 
     t = NULL;
     graph = NULL;
-    test("1");
+    selectedNode = NULL;
 
     // update timer
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
     timer->start(20);
+
 }
 
 GLWidget::~GLWidget()
@@ -84,10 +80,6 @@ void GLWidget::paintGL()
     glLoadIdentity();
     gluPerspective(45, (double)width()/(double)height(), 0.01, 10);
     glTranslatef(translateX, translateY, -translateZ);
-
-//    glLoadIdentity();
-//    gluLookAt(translateX,translateY,zPos, xLookAt,yLookAt,zLookAt, 0,1,0);
-
     glEnableClientState(GL_COLOR_ARRAY);
     glEnableClientState(GL_VERTEX_ARRAY);
 
@@ -112,7 +104,6 @@ void GLWidget::paintGL()
 
     glDisableClientState(GL_COLOR_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);
-//    glDisable(GL_LINE_SMOOTH);
 
     /*
      * ---end of drawing---
@@ -130,21 +121,18 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
     mouseY = event->pos().y();
     if(event->button() & Qt::LeftButton){
         isMouseLeftDown = true;
-//        double xx = (double)(event->pos().x() * 2 - width()) / (double)width();
-//        double yy = (double)(event->pos().y() * 2 - height()) / (double)height();
-//        qDebug() << "left ( " << xx << ", " << yy << " )";
-//        qDebug() << "left ( " << event->pos().x() << ", " << event->pos().y() << " )";
     }
     if(event->button() & Qt::MiddleButton){
         isMouseMiddleDown = true;
-//        qDebug() << "middle";
     }
     if(event->button() & Qt::RightButton){
         glLoadIdentity();
         gluPerspective(45, (double)width()/(double)height(), 0.01, 10);
         glTranslatef(translateX, translateY, -translateZ);
         glViewport(0, 0, width(), height());
-        sv->execute();
+        if(graph != NULL){
+            sv->execute();
+        }
 
         isMouseRightDown = true;
     }
@@ -155,20 +143,19 @@ void GLWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     if(event->button() & Qt::LeftButton){
         isMouseLeftDown = false;
-//        qDebug() << "left";
     }
     if(event->button() & Qt::MiddleButton){
         isMouseMiddleDown = false;
-//        qDebug() << "middle";
     }
     if(event->button() & Qt::RightButton){
         isMouseRightDown = false;
-//        qDebug() << "right";
     }
-//    qDebug() << "(" << event->pos().x() << ", " << event->pos().y() << ")";
+
     mouseX = event->pos().x();
     mouseY = event->pos().y();
-    t->resume();
+    if(t != NULL){
+        t->resume();
+    }
     update();
 }
 
@@ -190,10 +177,9 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
     }
     if (isMouseLeftDown && isKeyCtrlDown) {
         t->pause();
-        selectedNode->posX -= mouseDiffX * 0.15 * translateZ;
-        selectedNode->posY += mouseDiffY * 0.15 * translateZ;
-
+        dragv->execute();
     }
+
     mouseX = event->pos().x();
     mouseY = event->pos().y();
     update();
@@ -205,45 +191,32 @@ void GLWidget::wheelEvent(QWheelEvent *event)
     if (translateZ < 0.16) {
         translateZ = 0.16;
     }
-    if(translateZ > 3){
-        translateZ = 3;
+    if(translateZ > 10){
+        translateZ = 10;
     }
     update();
 }
 
 void GLWidget:: keyPressEvent(QKeyEvent *event)
 {
-    if(event->key() == Qt::Key_A){
-        qDebug() << "A";
-        if (graph != NULL){
-            terminateThread();
-            t = new TestThread(this);
-            t->addAlgorithm(new MultiForce(graph));
-            t->start();
+    if(event->key() == Qt::Key_Delete){
+        if(selectedNode){
+            deletev = new DeleteVertex(this, selectedVertexNumber);
+            deletev->execute();
+            selectedNode = 0;
+            selectedVertexNumber = -1;
+            changeAlgorithm(algorithm);
         }
     }
     if(event->key() == Qt::Key_Escape){
-        terminateThread();
-        if(graph!=NULL){
-            delete graph;
-            graph = NULL;
-            qDebug() << graph;
-        }
-    }
-    if (graph != NULL){
-        if(event->key() == Qt::Key_Left){
-//            qDebug() << "<<";
-            selectedNode->posX -= 100;
-//            graph->vertices[0]->posX -= 100;
-        }
-        if(event->key() == Qt::Key_Right){
-//            qDebug() << ">>";
-            selectedNode->posX += 100;
-//            graph->vertices[0]->posX += 100;
-        }
+        translateX = 0;
+        translateY = 0;
     }
     if (event->key() == Qt::Key_Control){
         isKeyCtrlDown = true;
+    }
+    if(event->key() == Qt::Key_F11){
+        saveScreenshot();
     }
     update();
 }
@@ -251,7 +224,7 @@ void GLWidget:: keyPressEvent(QKeyEvent *event)
 void GLWidget::keyReleaseEvent(QKeyEvent *event)
 {
     if(event->key() == Qt::Key_A){
-//        qDebug() << "A";
+
     }
     if (event->key() == Qt::Key_Control){
         isKeyCtrlDown = false;
@@ -259,24 +232,21 @@ void GLWidget::keyReleaseEvent(QKeyEvent *event)
     update();
 }
 
-void GLWidget::test(QString filePath)
+void GLWidget::changeAlgorithm(char a)
 {
-    qDebug() << "123456";
     terminateThread();
-
+    algorithm = a;
     if (graph != NULL){
         t = new TestThread(this);
-        if(filePath == '1')
+        if(a == '1')
             t->addAlgorithm(new SimpleForceDirected(graph));
-        if(filePath == '2')
+        if(a == '2')
             t->addAlgorithm(new FruchtermanReingold(graph));
-        if(filePath == '3')
+        if(a == '3')
             t->addAlgorithm(new MultiForce(graph));
         t->start();
-        qDebug() << t;
     }
     setFocus();
-//    qDebug() << filePath;
 }
 
 void GLWidget::terminateThread()
@@ -286,7 +256,6 @@ void GLWidget::terminateThread()
         t->wait();
         delete t;
         t = NULL;
-        qDebug() << t;
     }
 }
 
@@ -317,7 +286,6 @@ void GLWidget::setGraph(Graph *g)
 void GLWidget::setPath(char *p)
 {
     path = p;
-    c->execute();
 }
 
 int GLWidget::getWidth()
@@ -350,6 +318,39 @@ Vertex *GLWidget::getSelectedNode()
     return selectedNode;
 }
 
+GLdouble GLWidget::getMouseDiffX() const
+{
+    return mouseDiffX;
+}
+
+GLdouble GLWidget::getMouseDiffY() const
+{
+    return mouseDiffY;
+}
+
+GLdouble GLWidget::getTranslateZ() const
+{
+    return translateZ;
+}
+
+int GLWidget::getSelectedVertexNumber() const
+{
+    return selectedVertexNumber;
+}
+
+void GLWidget::setSelectedVertexNumber(int value)
+{
+    selectedVertexNumber = value;
+}
+
+void GLWidget::loadGraph(char *p)
+{
+    terminateThread();
+    path = p;
+    c->execute();
+    changeAlgorithm('1');
+}
+
 void GLWidget::degreeC()
 {
     DegreeCentrality cc;
@@ -373,3 +374,33 @@ void GLWidget::betweennessC()
         cc.calcApply(graph);
     setFocus();
 }
+
+void GLWidget::saveScreenshot()
+{
+    originalPixmap = this->grab();
+    const QString format = "png";
+    QString initialPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+    if (initialPath.isEmpty())
+        initialPath = QDir::currentPath();
+    initialPath += tr("/untitled.") + format;
+
+    QFileDialog fileDialog(this, tr("Save As"), initialPath);
+    fileDialog.setAcceptMode(QFileDialog::AcceptSave);
+    fileDialog.setFileMode(QFileDialog::AnyFile);
+    fileDialog.setDirectory(initialPath);
+    QStringList mimeTypes;
+    foreach (const QByteArray &bf, QImageWriter::supportedMimeTypes())
+        mimeTypes.append(QLatin1String(bf));
+    fileDialog.setMimeTypeFilters(mimeTypes);
+    fileDialog.selectMimeTypeFilter("image/" + format);
+    fileDialog.setDefaultSuffix(format);
+    if (fileDialog.exec() != QDialog::Accepted)
+        return;
+    const QString fileName = fileDialog.selectedFiles().first();
+    if (!originalPixmap.save(fileName)) {
+        QMessageBox::warning(this, tr("Save Error"), tr("The image could not be saved to \"%1\".")
+                             .arg(QDir::toNativeSeparators(fileName)));
+    }
+}
+
+

@@ -7,16 +7,16 @@
 #include "../../inc/Algorithms/FruchtermanReingold.h"
 
 FruchtermanReingold::FruchtermanReingold(Graph *g) : Algorithm(g) {
-    W = 128;
-    L = 72;
+    W = 40;
+    L = 30;
     area = W * L;
-    k = sqrt(area / (double) graph->numVertices);
     t = graph->numVertices;
+    k = sqrt(area / (double)t);
     initialPlacement();
 }
 
 void FruchtermanReingold::apply() {
-    static double maxV = 0;
+//    static double maxV = 0;
     Vertex *v;
     Vertex *u;
 
@@ -42,8 +42,10 @@ void FruchtermanReingold::apply() {
     }
 
     for (int i = 0; i < graph->numEdges; ++i) {
-        v = graph->vertices[graph->edgeList[i][0]];
-        u = graph->vertices[graph->edgeList[i][1]];
+//        v = graph->vertices[graph->edgeList[i][0]];
+//        u = graph->vertices[graph->edgeList[i][1]];
+        v = graph->edges[i]->base;
+        u = graph->edges[i]->connect;
 
         double xDist = (v->posX - u->posX);
         double yDist = (v->posY - u->posY);
@@ -58,7 +60,6 @@ void FruchtermanReingold::apply() {
 
         u->forceX += xDist / dist * attraction;
         u->forceY += yDist / dist * attraction;
-
     }
 
     for (int i = 0; i < graph->numVertices; ++i) {

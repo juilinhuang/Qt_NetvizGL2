@@ -25,17 +25,14 @@ public:
     void execute() override {
         vector<Vertex *> pointerOver;
         vector<double> depthValues;
-
+        window->setSelectedNode(NULL);
         if (window->getGraph()) {
-//            qDebug() << "ssss";
             for (int i = 0; i < window->getGraph()->numVertices; ++i) {
                 if (window->getGraph()->vertices[i]->isPointerOver(window->getMouseX(),
                                                                    window->getMouseY(),
                                                                    window->getWidth(),
                                                                    window->getHeight())) {
-
                     pointerOver.push_back(window->getGraph()->vertices[i]);
-                    qDebug() << "ssss";
                 }
                 if(window->getGraph()->vertices[i]->selected){
                     window->getGraph()->vertices[i]->selected = false;
@@ -58,18 +55,8 @@ public:
         for (int i = 0; i < pointerOver.size(); i++) {
             if (closest == depthValues[i]) {
                 pointerOver[i]->selected = true;
-//                window->selectedVertexNumber = pointerOver[i]->vertexNumber;
+                window->setSelectedVertexNumber(pointerOver[i]->vertexNumber);
                 window->setSelectedNode(pointerOver[i]);
-//                pointerOver[i]->getColour(cols);
-//                pointerOver[i]->getColour(cols);
-
-//
-
-//                Widget::Ins()->redColour = cols[0];
-//                Widget::Ins()->greenColour = cols[1];
-//                Widget::Ins()->blueColour = cols[2];
-//                Widget::Ins()->textNodeText = pointerOver[i]->text;
-//                Widget::updateNodeDetails();
             }
         }
     }
