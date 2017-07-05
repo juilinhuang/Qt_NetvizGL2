@@ -30,6 +30,13 @@
          </widget>
         </item>
         <item>
+         <widget class="QPushButton" name="pushButton_save">
+          <property name="text">
+           <string>save</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="Line" name="line">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>

@@ -33,7 +33,7 @@ public:
     vector<Edge *> edges;
     vector<vector<int>> adjacencyMatrix;
     vector<int *> edgeList;
-    set<string> set;
+    set<int> set;
 
     void update();
     void draw();
@@ -43,6 +43,7 @@ public:
 
 protected:
     void initialiseAdjacencyMatrix();
+    void getEdgeListFromAdjacencyMatrix();
     void setRandomColour();
 
 private:

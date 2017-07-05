@@ -6,6 +6,7 @@
 #include "../../inc/Graphs/MatrixMarketGraph.h"
 #include "../../inc/Graphs/mmio.h"
 #include "../../src/Graphs/mmio.c"
+#include <QDebug>
 
 MatrixMarketGraph::MatrixMarketGraph(char *filePath) {
     read(filePath);
@@ -95,7 +96,14 @@ void MatrixMarketGraph::read(char *filePath) {
             edges.push_back(new Edge(vertices[I[k]], vertices[J[k]]));
             adjacencyMatrix[I[k]][J[k]] = 1;
             adjacencyMatrix[J[k]][I[k]] = 1;
+            set.insert(I[k]);
+            set.insert(J[k]);
         }
+    }
+
+    std::set<int>::iterator it;
+    for(it = set.begin(); it != set.end(); it++){
+        qDebug() << *it;
     }
 
     for (int i = 0; i < numVertices; ++i) {
@@ -108,18 +116,9 @@ void MatrixMarketGraph::read(char *filePath) {
         }
     }
 
-    int *temp = new int[2];
     edgeList.clear();
-    for (int i = 0; i < numVertices; ++i) {
-        for (int j = i; j < numVertices; ++j) {
-            if (adjacencyMatrix[i][j] == 1) {
-                temp[0] = i;
-                temp[1] = j;
-                edgeList.push_back(temp);
-                temp = new int[2];
-            }
-        }
-    }
+    getEdgeListFromAdjacencyMatrix();
+
     numEdges = edgeList.size();
     setRandomColour();
     //  for (int i = 0; i < edgeList.size(); ++i) {

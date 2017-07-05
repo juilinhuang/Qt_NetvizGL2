@@ -14,13 +14,26 @@ private:
     GLWindow *window;
 public:
     DeleteVertex(GLWindow *window, int deletedNode)
-        : window(window), deleteNode(deletedNode) {};
+        : window(window), deleteNode(deletedNode) {}
+    ~DeleteVertex(){}
     int deleteNode;
 
 public:
     void execute() override {
         if (window->getGraph() && deleteNode >= 0 && deleteNode <= window->getGraph()->vertices.size()) {
             vector<int *> newEdgeList = window->getGraph()->edgeList;
+
+            window->getGraph()->set.erase(deleteNode);
+            qDebug() << window->getGraph()->set.size();
+            std::set<int>::iterator it;
+            for(it = window->getGraph()->set.begin(); it != window->getGraph()->set.end(); it++){
+                qDebug() << *it;
+//                if(*it > deleteNode){
+//                    it.operator--();
+//                    qDebug() << *it;
+//                }
+
+            }
 
             for (int i = 0; i < newEdgeList.size(); ++i) {
                 if ((newEdgeList[i][0] == deleteNode ||
@@ -35,6 +48,7 @@ public:
                 if (newEdgeList[i][1] > deleteNode)
                     newEdgeList[i][1]--;
             }
+
             window->setGraph(new EdgeGraph(newEdgeList));
         }
     }
