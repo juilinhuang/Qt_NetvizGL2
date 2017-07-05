@@ -51,6 +51,7 @@ public:
     void betweennessC();
 
     void saveScreenshot();
+    void saveFile();
 
 
 

@@ -8,6 +8,8 @@
 #include <QCloseEvent>
 #include <QPixmap>
 #include <QtWidgets>
+#include <QFile>
+#include <QTextStream>
 #include "inc/Graphs/EdgeGraph.h"
 #include "inc/Graphs/AdjacencyGraph.h"
 #include "inc/Graphs/MatrixMarketGraph.h"
@@ -266,6 +268,7 @@ void GLWidget::setSelectedVertexColour(int r, int g, int b)
     GLdouble blue = (GLdouble)b / 255;
     if(selectedNode)
         selectedNode->setColour(red, green, blue);
+    setFocus();
 }
 
 Graph *GLWidget::getGraph()
@@ -401,6 +404,35 @@ void GLWidget::saveScreenshot()
         QMessageBox::warning(this, tr("Save Error"), tr("The image could not be saved to \"%1\".")
                              .arg(QDir::toNativeSeparators(fileName)));
     }
+    setFocus();
+}
+
+void GLWidget::saveFile()
+{
+    const QString format = "txt";
+    QString initialPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+    if (initialPath.isEmpty())
+        initialPath = QDir::currentPath();
+    initialPath += tr("/untitled.") + format;
+
+    QFileDialog fileDialog(this, tr("Save As"), initialPath);
+    fileDialog.setAcceptMode(QFileDialog::AcceptSave);
+    fileDialog.setFileMode(QFileDialog::AnyFile);
+    fileDialog.setDirectory(initialPath);
+    fileDialog.setDefaultSuffix(format);
+    if (fileDialog.exec() != QDialog::Accepted)
+        return;
+    const QString fileName = fileDialog.selectedFiles().first();
+    QFile file(fileName);
+    file.open(QFile::WriteOnly | QFile::Text);
+    QTextStream out(&file);
+    for(int i = 0; i < graph->edgeList.size(); i++){
+        QString str = QString::fromStdString(std::to_string(graph->edgeList[i][0]) + " " + std::to_string(graph->edgeList[i][1]) + "\n");
+        out << str;
+    }
+    file.flush();
+    file.close();
+    setFocus();
 }
 
 

@@ -14,28 +14,18 @@ EdgeGraph::EdgeGraph(char *filePath) {
 
 EdgeGraph::EdgeGraph(vector<int *> newEdgeList) {
     edgeList = newEdgeList;
-
+    set.clear();
     for (int i = 0; i < edgeList.size(); ++i) {
-        if (edgeList[i][0] > numVertices) {
-            numVertices = (unsigned long) edgeList[i][0];
-        }
-        if (edgeList[i][1] > numVertices) {
-            numVertices = (unsigned long) edgeList[i][1];
-        }
+        set.insert(edgeList[i][0]);
+        set.insert(edgeList[i][1]);
     }
-    numVertices++;
-
+    numVertices = set.size();
     createGraphData();
-
     numEdges = edgeList.size();
-
-    //  for (int i = 0; i < edgeList.size(); ++i) {
-    //    fprintf(stderr, "%d,%d\n", edgeList[i][0], edgeList[i][1]);
-    //  }
 }
 
 EdgeGraph::~EdgeGraph() {
-    //    fprintf(stderr, "Deleting EdgeGraph\n");
+
 }
 
 void EdgeGraph::read(char *filePath) {
@@ -43,10 +33,9 @@ void EdgeGraph::read(char *filePath) {
     ifstream inFile;
     inFile.open(filePath);
     if (inFile.is_open()) {
-        //        fprintf(stdout, "\nOpened: %s \n", filePath);
+
     }
     else {
-        //        fprintf(stderr, "\nFailed to open %s \n", filePath);
         exit(0);
     }
 
@@ -58,36 +47,21 @@ void EdgeGraph::read(char *filePath) {
     }
     inFile.close();
 
-    //    qDebug() << (set.find("3") != set.end());
     numVertices = set.size();
-
     createGraphData();
-
     numEdges = edges.size();
-
-    /*
-    //  for (int i = 0; i < edgeList.size(); ++i) {
-    //    fprintf(stderr, "%d,%d\n", edgeList[i][0], edgeList[i][1]);
-    //  }
-    */
 }
 
 int *EdgeGraph::split(string str) {
     std::istringstream buf(str);
     std::istream_iterator<std::string> beg(buf), end;
-
     std::vector<std::string> tokens(beg, end);
 
-    vector<string>::iterator it;
-    for(it=tokens.begin();it!=tokens.end();it++){
-        if((set.find(*it) == set.end())){
-            set.insert(*it);
-        }
-    }
     int *ret = new int[tokens.size()];
-    for (int i = 0; i < tokens.size(); ++i)
+    for (int i = 0; i < tokens.size(); ++i){
         ret[i] = atoi(tokens[i].c_str());
-
+        set.insert(ret[i]);
+    }
     return ret;
 }
 
@@ -100,19 +74,9 @@ void EdgeGraph::createGraphData()
         adjacencyMatrix[edgeList[k][1]][edgeList[k][0]] = 1;
     }
     edgeList.clear();
-    int *temp = new int[2];
-    for (int i = 0; i < numVertices; ++i) {
-        for (int j = i; j < numVertices; ++j) {
-            if (adjacencyMatrix[i][j] == 1 && i != j) {
-                temp[0] = i;
-                temp[1] = j;
-                edgeList.push_back(temp);
-                temp = new int[2];
-            }
-        }
-    }
+    getEdgeListFromAdjacencyMatrix();
     vertices.clear();
-    for (int j = 0; j < numVertices; ++j) {
+    for (int j = 0; j < set.size(); ++j) {
         vertices.push_back(new Vertex(0, 0, 0));
         vertices[j]->setColour(0, 0, 0);
     }
@@ -121,19 +85,5 @@ void EdgeGraph::createGraphData()
         vertices[edgeList[k][0]]->degree++;
         vertices[edgeList[k][1]]->degree++;
     }
-    qDebug() << edges.size();
     setRandomColour();
 }
-
-//string *EdgeGraph::getEdgeList(string str){
-//    std::istringstream buf(str);
-//    std::istream_iterator<std::string> beg(buf), end;
-
-//    std::vector<std::string> tokens(beg, end);
-
-//    string *sss = new string[tokens.size()];
-//    for (int i = 0; i < tokens.size(); ++i){
-//        sss[i] = tokens[i];
-//    }
-//    return sss;
-//}

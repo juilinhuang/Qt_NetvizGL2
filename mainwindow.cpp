@@ -79,3 +79,8 @@ void MainWindow::on_pushButton_between_clicked()
 {
     ui->widget->betweennessC();
 }
+
+void MainWindow::on_pushButton_save_clicked()
+{
+    ui->widget->saveFile();
+}

@@ -10,9 +10,11 @@ Graph::Graph() {
 }
 
 Graph::~Graph() {
-    //    fprintf(stderr, "Deleting Graph\n");
     vertices.clear();
     adjacencyMatrix.clear();
+    edgeList.clear();
+    edges.clear();
+    set.clear();
 }
 
 void Graph::initialiseAdjacencyMatrix()
@@ -22,6 +24,21 @@ void Graph::initialiseAdjacencyMatrix()
         adjacencyMatrix.push_back(row);
         for (int j = 0; j < numVertices; ++j) {
             adjacencyMatrix[i].push_back(0);
+        }
+    }
+}
+
+void Graph::getEdgeListFromAdjacencyMatrix()
+{
+    int *temp = new int[2];
+    for (int i = 0; i < numVertices; ++i) {
+        for (int j = i; j < numVertices; ++j) {
+            if (adjacencyMatrix[i][j] == 1 && i != j) {
+                temp[0] = i;
+                temp[1] = j;
+                edgeList.push_back(temp);
+                temp = new int[2];
+            }
         }
     }
 }
@@ -58,25 +75,6 @@ void Graph::draw() {
 unsigned int Graph::hash3(unsigned int h1, unsigned int h2, unsigned int h3) {
     return ((h1 * 2654435789U) + h2) * 2654435789U + h3;
 }
-
-//int *Graph::split(string str) {
-//    std::istringstream buf(str);
-//    std::istream_iterator<std::string> beg(buf), end;
-
-//    std::vector<std::string> tokens(beg, end);
-
-////    vector<string>::iterator it;
-////    for(it=tokens.begin();it!=tokens.end();it++)
-////        set.insert(*it);
-
-//    qDebug() << "tokens.size() = " << tokens.size();
-
-//    int *ret = new int[tokens.size()];
-//    for (int i = 0; i < tokens.size(); ++i)
-//        ret[i] = atoi(tokens[i].c_str());
-
-//    return ret;
-//}
 
 void Graph::setRandomColour(){
     struct timeval time;

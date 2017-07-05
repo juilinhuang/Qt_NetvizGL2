@@ -34,16 +34,6 @@ void AdjacencyGraph::read(char *filePath) {
 
     numVertices = static_cast<unsigned long>( edgeList.size() );
 
-//    fprintf(stdout, "Vertices - %d\n", numVertices);
-
-//    for (int i = 0; i < numVertices; ++i) {
-//        vector<int> row;
-//        adjacencyMatrix.push_back(row);
-//        for (int j = 0; j < numVertices; ++j) {
-//            adjacencyMatrix[i].push_back(0);
-//        }
-//    }
-
     initialiseAdjacencyMatrix();
 
     for (int i = 0; i < numVertices; ++i) {
@@ -69,18 +59,9 @@ void AdjacencyGraph::read(char *filePath) {
         }
     }
 
-    int *temp = new int[2];
     edgeList.clear();
-    for (int i = 0; i < numVertices; ++i) {
-        for (int j = 0; j < i; ++j) {
-            if (adjacencyMatrix[i][j] == 1) {
-                temp[0] = j;
-                temp[1] = i;
-                edgeList.push_back(temp);
-                temp = new int[2];
-            }
-        }
-    }
+    getEdgeListFromAdjacencyMatrix();
+
     numEdges = edgeList.size();
 
     setRandomColour();
@@ -96,8 +77,6 @@ int *AdjacencyGraph::split(string str)
     std::istream_iterator<std::string> beg(buf), end;
 
     std::vector<std::string> tokens(beg, end);
-
-    qDebug() << "tokens.size() = " << tokens.size();
 
     int *ret = new int[tokens.size()];
     for (int i = 0; i < tokens.size(); ++i)
