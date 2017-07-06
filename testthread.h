@@ -4,14 +4,16 @@
 #include <QMutex>
 #include <QWaitCondition>
 #include "inc/Algorithms/Algorithm.h"
+#include "inc/Graphs/Graph.h"
 
 class TestThread : public QThread
 {
     Q_OBJECT
 public:
     explicit TestThread(QObject * p = 0);
+    ~TestThread();
     void run();
-    void addAlgorithm(Algorithm *a);
+    void getAlgorithm(char a, Graph *g);
     void resume();
     void pause();
 
@@ -20,7 +22,8 @@ signals:
 public slots:
 
 private:
-    Algorithm *a;
+    Algorithm *algorithm;
+    Graph *graph;
     QMutex sync;
     QWaitCondition pauseCond;
     bool isPaused;

@@ -58,7 +58,6 @@ GLWidget::~GLWidget()
 {
     delete timer;
     delete t;
-//    delete algorithm;
     delete graph;
 }
 
@@ -240,12 +239,7 @@ void GLWidget::changeAlgorithm(char a)
     algorithm = a;
     if (graph != NULL){
         t = new TestThread(this);
-        if(a == '1')
-            t->addAlgorithm(new SimpleForceDirected(graph));
-        if(a == '2')
-            t->addAlgorithm(new FruchtermanReingold(graph));
-        if(a == '3')
-            t->addAlgorithm(new MultiForce(graph));
+        t->getAlgorithm(a, graph);
         t->start();
     }
     setFocus();
@@ -271,26 +265,6 @@ void GLWidget::setSelectedVertexColour(int r, int g, int b)
     setFocus();
 }
 
-Graph *GLWidget::getGraph()
-{
-    return graph;
-}
-
-char *GLWidget::getPath()
-{
-    return path;
-}
-
-void GLWidget::setGraph(Graph *g)
-{
-    graph = g;
-}
-
-void GLWidget::setPath(char *p)
-{
-    path = p;
-}
-
 int GLWidget::getWidth()
 {
     return width();
@@ -301,57 +275,13 @@ int GLWidget::getHeight()
     return height();
 }
 
-double GLWidget::getMouseX()
-{
-    return mouseX;
-}
-
-double GLWidget::getMouseY()
-{
-    return mouseY;
-}
-
-void GLWidget::setSelectedNode(Vertex *v)
-{
-    selectedNode = v;
-}
-
-Vertex *GLWidget::getSelectedNode()
-{
-    return selectedNode;
-}
-
-GLdouble GLWidget::getMouseDiffX() const
-{
-    return mouseDiffX;
-}
-
-GLdouble GLWidget::getMouseDiffY() const
-{
-    return mouseDiffY;
-}
-
-GLdouble GLWidget::getTranslateZ() const
-{
-    return translateZ;
-}
-
-int GLWidget::getSelectedVertexNumber() const
-{
-    return selectedVertexNumber;
-}
-
-void GLWidget::setSelectedVertexNumber(int value)
-{
-    selectedVertexNumber = value;
-}
-
 void GLWidget::loadGraph(char *p)
 {
     terminateThread();
     path = p;
     c->execute();
     changeAlgorithm('1');
+    setFocus();
 }
 
 void GLWidget::degreeC()
@@ -434,5 +364,3 @@ void GLWidget::saveFile()
     file.close();
     setFocus();
 }
-
-

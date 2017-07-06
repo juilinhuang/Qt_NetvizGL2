@@ -1,9 +1,19 @@
 #include "testthread.h"
+#include "inc/Algorithms/SimpleForceDirected.h"
+#include "inc/Algorithms/FruchtermanReingold.h"
+#include "inc/Algorithms/MultiForce.h"
 #include <QDebug>
 
 TestThread::TestThread(QObject *p) : QThread(p)
 {
     isPaused = false;
+    algorithm = 0;
+}
+
+TestThread::~TestThread()
+{
+    delete algorithm;
+    algorithm = 0;
 }
 
 void TestThread::run()
@@ -13,15 +23,20 @@ void TestThread::run()
         if(isPaused)
             pauseCond.wait(&sync); // in this place, your thread will stop to execute until someone calls resume
         sync.unlock();
-        if(a!=NULL)
-            a->apply();
+        if(algorithm!=NULL)
+            algorithm->apply();
         //        usleep(5000);
     }
 }
 
-void TestThread::addAlgorithm(Algorithm *a)
+void TestThread::getAlgorithm(char a, Graph *g)
 {
-    this->a = a;
+    if(a == '1')
+        algorithm = new SimpleForceDirected(g);
+    if(a == '2')
+        algorithm = new FruchtermanReingold(g);
+    if(a == '3')
+        algorithm = new MultiForce(g);
 }
 
 void TestThread::resume()

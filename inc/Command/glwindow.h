@@ -7,21 +7,75 @@
 class GLWindow{
 
 public:
-    virtual Graph *getGraph() = 0;
-    virtual char* getPath() = 0;
-    virtual void setGraph(Graph *g) = 0;
-    virtual void setPath(char *p) = 0;
+//    Graph *getGraph();
+//    char* getPath();
+//    void setGraph(Graph *g);
+//    void setPath(char *p);
+//    double getMouseX();
+//    double getMouseY();
+//    void setSelectedNode(Vertex *v);
+//    Vertex *getSelectedNode();
+//    GLdouble getMouseDiffX() const;
+//    GLdouble getMouseDiffY() const;
+//    GLdouble getTranslateZ() const;
+//    int getSelectedVertexNumber() const;
+//    void setSelectedVertexNumber(int value);
+
     virtual int getWidth() = 0;
     virtual int getHeight() = 0;
-    virtual double getMouseX() = 0;
-    virtual double getMouseY() = 0;
-    virtual void setSelectedNode(Vertex *v) = 0;
-    virtual Vertex *getSelectedNode() = 0;
-    virtual GLdouble getMouseDiffX() const = 0;
-    virtual GLdouble getMouseDiffY() const = 0;
-    virtual GLdouble getTranslateZ() const = 0;
-    virtual int getSelectedVertexNumber() const = 0;
-    virtual void setSelectedVertexNumber(int value) = 0;
+
+    Graph *getGraph() const
+    {
+        return graph;
+    }
+    void setGraph(Graph *g)
+    {
+        graph = g;
+    }
+    char *getPath() const
+    {
+        return path;
+    }
+    void setPath(char *p)
+    {
+        path = p;
+    }
+    GLdouble getMouseX() const
+    {
+        return mouseX;
+    }
+    GLdouble getMouseY() const
+    {
+        return mouseY;
+    }
+    Vertex *getSelectedNode() const
+    {
+        return selectedNode;
+    }
+    void setSelectedNode(Vertex *v)
+    {
+        selectedNode = v;
+    }
+    GLdouble getMouseDiffX() const
+    {
+        return mouseDiffX;
+    }
+    GLdouble getMouseDiffY() const
+    {
+        return mouseDiffY;
+    }
+    GLdouble getTranslateZ() const
+    {
+        return translateZ;
+    }
+    int getSelectedVertexNumber() const
+    {
+        return selectedVertexNumber;
+    }
+    void setSelectedVertexNumber(int sv)
+    {
+        selectedVertexNumber = sv;
+    }
 
 protected:
     Command *c;
@@ -42,7 +96,8 @@ protected:
     Graph *graph;
     Vertex *selectedNode;
     int selectedVertexNumber;
-};
+    char* path;
 
+};
 
 #endif // GLWINDOW_H
