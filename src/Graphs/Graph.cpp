@@ -43,9 +43,34 @@ void Graph::getEdgeListFromAdjacencyMatrix()
     }
 }
 
+void Graph::getAdjacencyMatrixFromEdgeList()
+{
+    for (int k = 0; k < edgeList.size(); ++k) {
+        adjacencyMatrix[edgeList[k][0]][edgeList[k][1]] = 1;
+        adjacencyMatrix[edgeList[k][1]][edgeList[k][0]] = 1;
+    }
+}
+
 vector<vector<int> > Graph::getAdjacencyMatrix() const
 {
     return adjacencyMatrix;
+}
+
+void Graph::createVertices()
+{
+    for (int j = 0; j < set.size(); ++j) {
+        vertices.push_back(new Vertex(0, 0, 0));
+        vertices[j]->setColour(0, 0, 0);
+    }
+}
+
+void Graph::createEdges()
+{
+    for (int k = 0; k < edgeList.size(); ++k) {
+        edges.push_back(new Edge(vertices[edgeList[k][0]], vertices[edgeList[k][1]]));
+        vertices[edgeList[k][0]]->degree++;
+        vertices[edgeList[k][1]]->degree++;
+    }
 }
 
 void Graph::update() {

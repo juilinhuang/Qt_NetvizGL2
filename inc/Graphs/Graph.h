@@ -42,8 +42,11 @@ public:
     vector<vector<int> > getAdjacencyMatrix() const;
 
 protected:
+    void createVertices();
+    void createEdges();
     void initialiseAdjacencyMatrix();
     void getEdgeListFromAdjacencyMatrix();
+    void getAdjacencyMatrixFromEdgeList();
     void setRandomColour();
 
 private:

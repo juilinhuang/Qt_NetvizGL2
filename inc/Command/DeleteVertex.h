@@ -24,16 +24,7 @@ public:
             vector<int *> newEdgeList = window->getGraph()->edgeList;
 
             window->getGraph()->set.erase(deleteNode);
-            qDebug() << window->getGraph()->set.size();
-            std::set<int>::iterator it;
-            for(it = window->getGraph()->set.begin(); it != window->getGraph()->set.end(); it++){
-                qDebug() << *it;
-//                if(*it > deleteNode){
-//                    it.operator--();
-//                    qDebug() << *it;
-//                }
-
-            }
+            window->getGraph()->vertices.erase(window->getGraph()->vertices.begin() + deleteNode);
 
             for (int i = 0; i < newEdgeList.size(); ++i) {
                 if ((newEdgeList[i][0] == deleteNode ||
@@ -49,7 +40,20 @@ public:
                     newEdgeList[i][1]--;
             }
 
+            Graph *temp = window->getGraph();
             window->setGraph(new EdgeGraph(newEdgeList));
+            GLdouble *colours = new GLdouble[3];
+
+            for (int i = 0; i < window->getGraph()->vertices.size(); ++i) {
+                window->getGraph()->vertices[i]->posX = temp->vertices[i]->posX;
+                window->getGraph()->vertices[i]->posY = temp->vertices[i]->posY;
+                window->getGraph()->vertices[i]->posZ = temp->vertices[i]->posZ;
+
+                window->getGraph()->vertices[i]->setText(temp->vertices[i]->text);
+
+                temp->vertices[i]->getColour(colours);
+                window->getGraph()->vertices[i]->setColour(colours[0], colours[1], colours[2]);
+            }
         }
     }
 };

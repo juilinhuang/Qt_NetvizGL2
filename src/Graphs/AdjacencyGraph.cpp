@@ -42,6 +42,9 @@ void AdjacencyGraph::read(char *filePath) {
         }
     }
 
+    edgeList.clear();
+    getEdgeListFromAdjacencyMatrix();
+
     for (int j = 0; j < numVertices; ++j) {
         vertices.push_back(new Vertex(0, 0, 0));
         vertices[j]->setColour(0, 0, 0);
@@ -59,16 +62,8 @@ void AdjacencyGraph::read(char *filePath) {
         }
     }
 
-    edgeList.clear();
-    getEdgeListFromAdjacencyMatrix();
-
     numEdges = edgeList.size();
-
     setRandomColour();
-
-    //  for (int i = 0; i < edgeList.size(); ++i) {
-    //    fprintf(stderr, "%d,%d\n", edgeList[i][0], edgeList[i][1]);
-    //  }
 }
 
 int *AdjacencyGraph::split(string str)
@@ -86,6 +81,5 @@ int *AdjacencyGraph::split(string str)
 }
 
 AdjacencyGraph::~AdjacencyGraph() {
-//    fprintf(stderr, "Deleting AdjacencyGraph\n");
 
 }
