@@ -10,10 +10,12 @@
 
 MatrixMarketGraph::MatrixMarketGraph(char *filePath) {
     read(filePath);
+    createGraphData();
+    setRandomColour();
 }
 
 MatrixMarketGraph::~MatrixMarketGraph() {
-//    fprintf(stderr, "Deleting MatrixGraph\n");
+    qDebug() << "delete MatrixMarketGraph";
 }
 
 // Taken from the example @ http://math.nist.gov/MatrixMarket/mmio-c.html
@@ -58,77 +60,17 @@ void MatrixMarketGraph::read(char *filePath) {
         fscanf(f, "%d %d\n", &I[i], &J[i]);
         I[i]--;  /* adjust from 1-based to 0-based */
         J[i]--;
+        if(I[i] == J[i])
+            continue;
+        int *e = new int[2];
+        e[0] = I[i];
+        e[1] = J[i];
+        edgeList.push_back(e);
     }
-
     fclose(f);
 
-//    fprintf(stdout, "\n%s\n", filePath);
     mm_write_banner(stdout, matcode);
     mm_write_mtx_crd_size(stdout, rows, cols, edgs);
-    //  for (i = 0; i < edgs; i++)
-    //    fprintf(stderr, "%d %d\n", I[i], J[i]);
-
-    numVertices = (unsigned long) rows;
-
-    //Initialise Adj Matrix
-//    for (int i = 0; i < numVertices; ++i) {
-//        vector<int> row;
-//        adjacencyMatrix.push_back(row);
-//        for (int j = 0; j < numVertices; ++j) {
-//            adjacencyMatrix[i].push_back(0);
-//        }
-//    }
-
-    for (int j = 0; j < numVertices; ++j) {
-        vertices.push_back(new Vertex(0, 0, 0));
-        vertices[j]->setColour(0, 0, 0);
-    }
-
-    initialiseAdjacencyMatrix();
-
-    //Attach points to each other
-    for (int k = 0; k < edgs; ++k) {
-        if(I[k] == J[k]){
-            //fprintf(stderr, "%d %d\n", I[k], J[k]);
-        }
-        else {
-//            vertices[I[k]]->attachPoint(vertices[J[k]]);
-            edges.push_back(new Edge(vertices[I[k]], vertices[J[k]]));
-            adjacencyMatrix[I[k]][J[k]] = 1;
-            adjacencyMatrix[J[k]][I[k]] = 1;
-            set.insert(I[k]);
-            set.insert(J[k]);
-        }
-    }
-
-    std::set<int>::iterator it;
-    for(it = set.begin(); it != set.end(); it++){
-        qDebug() << *it;
-    }
-
-    for (int i = 0; i < numVertices; ++i) {
-        for (int j = i; j < numVertices; ++j) {
-            if (j == i) continue;
-            if (adjacencyMatrix[i][j] == 1) {
-                vertices[i]->degree++;
-                vertices[j]->degree++;
-            }
-        }
-    }
-
-    edgeList.clear();
-    getEdgeListFromAdjacencyMatrix();
-
-    numEdges = edgeList.size();
-    setRandomColour();
-    //  for (int i = 0; i < edgeList.size(); ++i) {
-    //    fprintf(stderr, "%d,%d\n", edgeList[i][0], edgeList[i][1]);
-    //  }
-}
-
-int *MatrixMarketGraph::split(string str)
-{
-    return NULL;
 }
 
 

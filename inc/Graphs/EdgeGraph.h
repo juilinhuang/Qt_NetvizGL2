@@ -13,12 +13,6 @@ public:
     EdgeGraph(char *filePath);
     EdgeGraph(vector<int *> newEdgeList);
     virtual ~EdgeGraph();
-
-private:
-    virtual void read(char *filePath) override;
-    virtual int *split(string str) override;
-    void createGraphData();
-//    string *getEdgeList(string str);
 };
 
 #endif //NETVIZGL_EDGEGRAPH_H

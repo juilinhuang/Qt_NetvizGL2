@@ -32,6 +32,7 @@ public:
     vector<Vertex *> vertices;
     vector<Edge *> edges;
     vector<vector<int>> adjacencyMatrix;
+    vector<int *> dataFromFile;
     vector<int *> edgeList;
     set<int> set;
 
@@ -42,6 +43,7 @@ public:
     vector<vector<int> > getAdjacencyMatrix() const;
 
 protected:
+    void createGraphData();
     void createVertices();
     void createEdges();
     void initialiseAdjacencyMatrix();
@@ -49,9 +51,9 @@ protected:
     void getAdjacencyMatrixFromEdgeList();
     void setRandomColour();
 
-private:
-    virtual void read(char *filePath) = 0;
-    virtual int *split(string str) = 0;
+//private:
+    void read(char *filePath);
+    int *split(string str);
 };
 
 #endif //NETVIZGL_GRAPHREADER_H

@@ -11,10 +11,6 @@ class AdjacencyGraph : public Graph {
 public:
     AdjacencyGraph(char *filePath);
     virtual ~AdjacencyGraph();
-
-private:
-    virtual void read(char *filePath) override;
-    virtual int *split(string str) override;
 };
 
 #endif //NETVIZGL_ADJACENCYGRAPH_H

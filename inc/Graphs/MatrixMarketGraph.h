@@ -13,8 +13,7 @@ public:
     ~MatrixMarketGraph() override;
 
 private:
-    void read(char *filePath) override;
-    int *split(string str) override;
+    void read(char *filePath);
 };
 
 #endif //NETVIZGL_MATRIXMARKETGRAPH_H
