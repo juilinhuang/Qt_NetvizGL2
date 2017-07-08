@@ -24,7 +24,7 @@ void MatrixMarketGraph::read(char *filePath) {
     MM_typecode matcode;
     FILE *f;
     int rows, cols, edgs;
-    int i, *I, *J;
+    int *I, *J;
 
     if ((f = fopen(filePath, "r")) == NULL) {
 //        fprintf(stderr, "File not Opened");
@@ -56,7 +56,7 @@ void MatrixMarketGraph::read(char *filePath) {
     I = (int *) malloc(edgs * sizeof(int));
     J = (int *) malloc(edgs * sizeof(int));
 
-    for (i = 0; i < edgs; i++) {
+    for (int i = 0; i < edgs; i++) {
         fscanf(f, "%d %d\n", &I[i], &J[i]);
         I[i]--;  /* adjust from 1-based to 0-based */
         J[i]--;

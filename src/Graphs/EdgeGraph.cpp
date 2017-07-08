@@ -10,7 +10,7 @@
 
 EdgeGraph::EdgeGraph(char *filePath){
     read(filePath);
-    edgeList = dataFromFile;
+    edgeList = rawDataFromFile;
     createGraphData();
     setRandomColour();
 }

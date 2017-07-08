@@ -11,9 +11,9 @@
 
 AdjacencyGraph::AdjacencyGraph(char *filePath) {
     read(filePath);
-    for (int i = 0; i < dataFromFile.size(); ++i) {
-        for (int j = 0; j < dataFromFile.size(); ++j) {
-            if(dataFromFile[i][j] == 0 || i == j)
+    for (int i = 0; i < rawDataFromFile.size(); ++i) {
+        for (int j = 0; j < rawDataFromFile.size(); ++j) {
+            if(rawDataFromFile[i][j] == 0 || i == j)
                 continue;
             int *e = new int[2];
             e[0] = i;

@@ -146,7 +146,7 @@ void Graph::read(char *filePath) {
     while (!inFile.eof()) {
         getline(inFile, inString);
         if (inString.size() > 1){
-            dataFromFile.push_back(split(inString));
+            rawDataFromFile.push_back(split(inString));
         }
     }
     inFile.close();

@@ -32,7 +32,7 @@ public:
     vector<Vertex *> vertices;
     vector<Edge *> edges;
     vector<vector<int>> adjacencyMatrix;
-    vector<int *> dataFromFile;
+    vector<int *> rawDataFromFile;
     vector<int *> edgeList;
     set<int> set;
 
