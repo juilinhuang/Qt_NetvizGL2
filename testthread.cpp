@@ -29,15 +29,16 @@ void TestThread::run()
     }
 }
 
-void TestThread::getAlgorithm(char a, Graph *g)
-{
-    if(a == '1')
-        algorithm = new SimpleForceDirected(g);
-    if(a == '2')
-        algorithm = new FruchtermanReingold(g);
-    if(a == '3')
-        algorithm = new MultiForce(g);
-}
+//Algorithm *TestThread::getAlgorithm(char a, Graph *g)
+//{
+//    if(a == '1')
+//        return new SimpleForceDirected(g);
+//    if(a == '2')
+//        return new FruchtermanReingold(g);
+//    if(a == '3')
+//        return new MultiForce(g);
+//    return NULL;
+//}
 
 void TestThread::resume()
 {
@@ -52,4 +53,9 @@ void TestThread::pause()
     sync.lock();
     isPaused = true;
     sync.unlock();
+}
+
+void TestThread::setAlgorithm(Algorithm *a)
+{
+    algorithm = a;
 }

@@ -10,12 +10,14 @@ class TestThread : public QThread
 {
     Q_OBJECT
 public:
-    explicit TestThread(QObject * p = 0);
+    explicit TestThread(QObject *p = 0);
     ~TestThread();
     void run();
-    void getAlgorithm(char a, Graph *g);
+//    static Algorithm *getAlgorithm(char a, Graph *g);
     void resume();
     void pause();
+
+    void setAlgorithm(Algorithm *a);
 
 signals:
 

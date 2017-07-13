@@ -39,7 +39,8 @@ SOURCES += main.cpp\
     src/Centrality/Betweenness.cpp \
     src/Centrality/DegreeCentrality.cpp \
     src/Centrality/DistanceCentrality.cpp \
-    testthread.cpp
+    testthread.cpp \
+    algorithmfactory.cpp
 
 HEADERS  += mainwindow.h \
     glwidget.h \
@@ -66,7 +67,8 @@ HEADERS  += mainwindow.h \
     inc/Command/SelectVertex.h \
     inc/Command/glwindow.h \
     inc/Command/DragVertex.h \
-    inc/Command/DeleteVertex.h
+    inc/Command/DeleteVertex.h \
+    algorithmfactory.h
 
 FORMS    += mainwindow.ui
 

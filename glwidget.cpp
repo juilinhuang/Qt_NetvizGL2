@@ -25,6 +25,7 @@
 #include "inc/Centrality/DistanceCentrality.h"
 #include "inc/Centrality/Betweenness.h"
 #include "testthread.h"
+#include "algorithmfactory.h"
 
 
 GLWidget::GLWidget(QWidget *parent):QOpenGLWidget(parent)
@@ -239,7 +240,8 @@ void GLWidget::changeAlgorithm(char a)
     algorithm = a;
     if (graph != NULL){
         t = new TestThread(this);
-        t->getAlgorithm(a, graph);
+        t->setAlgorithm(AlgorithmFactory::getAlgorithm(a, graph));
+//        t->getAlgorithm(a, graph);
         t->start();
     }
     setFocus();
